@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "database": {
+      "command": "npx",
+      "args": [
+        "mcp-server-postgres",
+        "postgresql://dev:devpassword@localhost:5432/myapp_dev"
+      ],
+      "env": {}
+    },
+    "github": {
+      "command": "npx",
+      "args": ["@anthropic-ai/mcp-github"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "@anthropic-ai/mcp-filesystem",
+        "/home/user/docs/api-specs"
+      ],
+      "env": {}
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["mcp-server-fetch"],
+      "env": {}
+    }
+  }
+}
