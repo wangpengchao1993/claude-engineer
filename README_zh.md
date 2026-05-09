@@ -24,10 +24,27 @@
 
 ---
 
+## 学习路线图
+
+> 从入门到专家的完整路径。完整路线图：[roadmap.md](roadmap.md)
+
+```
+🟢 阶段 1：入门                 🔵 阶段 2：日常使用
+   安装 → 首次对话 →               交互模式 → Plan 模式 →
+   创建 CLAUDE.md                  Git 工作流 → 上下文管理
+
+🟡 阶段 3：高级用户             🔴 阶段 4：专家
+   Hooks → MCP 服务器 →           Claude API → Agent SDK →
+   Prompt 工程                     多 Agent → CI/CD 集成
+```
+
+---
+
 ## 快速导航
 
 | 板块 | 说明 |
 |------|------|
+| [学习路线图](roadmap.md) | 从入门到专家的分阶段学习路径 |
 | [速查表](cheatsheet.md) | 命令、快捷键和技巧速查 |
 | [教程指南](guide/zh/) | 从入门到高级的深度教程 |
 | [模板](templates/) | 即用型 CLAUDE.md、Hook 和 Prompt 模板 |

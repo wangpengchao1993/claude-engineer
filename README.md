@@ -24,10 +24,27 @@
 
 ---
 
+## Learning Roadmap
+
+> Follow the path from beginner to expert. Full roadmap: [roadmap.md](roadmap.md)
+
+```
+🟢 Stage 1: Getting Started     🔵 Stage 2: Daily Driver
+   Install → First Chat →          Interactive → Plan Mode →
+   CLAUDE.md                       Git & Pipes → /compact
+
+🟡 Stage 3: Power User          🔴 Stage 4: Expert
+   Hooks → MCP Servers →           Claude API → Agent SDK →
+   Prompt Engineering               Multi-Agent → CI/CD
+```
+
+---
+
 ## Quick Navigation
 
 | Section | Description |
 |---------|-------------|
+| [Roadmap](roadmap.md) | Step-by-step learning path from beginner to expert |
 | [Cheatsheet](cheatsheet.md) | Quick reference for commands, shortcuts, and tips |
 | [Guide](guide/en/) | In-depth tutorials from beginner to advanced |
 | [Templates](templates/) | Ready-to-use CLAUDE.md, hooks, and prompt templates |
