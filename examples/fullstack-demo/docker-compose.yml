@@ -1,0 +1,66 @@
+# Task Manager -- Local Development Environment
+# 任务管理器 -- 本地开发环境
+#
+# Usage / 用法:
+#   docker-compose up          # Start all services / 启动所有服务
+#   docker-compose up --build  # Rebuild and start / 重建并启动
+#   docker-compose down        # Stop all services / 停止所有服务
+
+services:
+  # ── Backend API / 后端 API ──────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"  # API port / API 端口
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DB_PATH=/app/data/tasks.db  # Database path inside container / 容器内数据库路径
+      - JWT_SECRET=dev-secret-change-in-production  # Dev only / 仅开发环境
+      - JWT_REFRESH_SECRET=dev-refresh-secret-change-in-production
+      - LOG_LEVEL=debug
+    volumes:
+      # Mount source for live reload / 挂载源码以实现热更新
+      - ./backend/src:/app/src
+      # Persist database between restarts / 在重启之间持久化数据库
+      - task-data:/app/data
+      # Avoid overwriting node_modules / 避免覆盖 node_modules
+      - /app/node_modules
+    # Auto-restart on crash / 崩溃时自动重启
+    restart: unless-stopped
+    # Health check / 健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+      interval: 10s   # Check every 10s / 每 10 秒检查
+      timeout: 5s     # Timeout after 5s / 5 秒后超时
+      retries: 3      # Fail after 3 retries / 3 次重试后标记为失败
+      start_period: 5s
+
+  # ── Frontend / 前端 ─────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"  # Vite dev server port / Vite 开发服务器端口
+    environment:
+      - VITE_API_URL=http://localhost:3001  # Backend URL / 后端地址
+    volumes:
+      # Mount source for HMR / 挂载源码以实现 HMR
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+      # Avoid overwriting node_modules / 避免覆盖 node_modules
+      - /app/node_modules
+    depends_on:
+      backend:
+        condition: service_healthy  # Wait for backend / 等待后端就绪
+    restart: unless-stopped
+
+# ── Volumes / 数据卷 ────────────────────────────────────────
+# Named volume for SQLite database persistence
+# 命名卷用于 SQLite 数据库持久化
+volumes:
+  task-data:
+    driver: local

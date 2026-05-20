@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm test)",
+      "Bash(npm run lint)",
+      "Bash(npm run build)",
+      "Bash(npm run db:migrate)",
+      "Bash(npm run db:seed)",
+      "Bash(docker-compose up -d)",
+      "Bash(docker-compose down)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          "bash -c 'FILE=\"$CLAUDE_FILE_PATH\"; for p in migrations/ package-lock.json .github/workflows/; do [[ \"$FILE\" == *\"$p\"* ]] && echo \"BLOCKED: $FILE is protected\" && exit 1; done; exit 0'"
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          "bash -c 'FILE=\"$CLAUDE_FILE_PATH\"; [[ \"$FILE\" == *.js || \"$FILE\" == *.ts || \"$FILE\" == *.jsx || \"$FILE\" == *.tsx ]] && npx eslint --fix \"$FILE\" 2>/dev/null; exit 0'"
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          "bash -c 'command -v notify-send &>/dev/null && notify-send \"Claude Code\" \"Task completed\" || true'"
+        ]
+      }
+    ]
+  }
+}

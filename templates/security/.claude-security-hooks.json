@@ -1,0 +1,119 @@
+{
+  "_comment_en": "Claude Code security hooks configuration. Copy to .claude/settings.json in your project.",
+  "_comment_zh": "Claude Code 安全钩子配置。复制到项目中的 .claude/settings.json。",
+
+  "hooks": {
+    "PreToolUse": [
+      {
+        "_comment_en": "Block hardcoded secrets in file writes — checks for API keys, passwords, and tokens",
+        "_comment_zh": "阻止文件写入中的硬编码密钥 — 检查 API 密钥、密码和令牌",
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); echo \"$INPUT\" | grep -qiE \"(api[_-]?key|secret[_-]?key|password|passwd|token|bearer|authorization)[\\\"\\x27\\s]*[:=][\\s]*[\\\"\\x27][A-Za-z0-9+/=_-]{8,}\" && echo \"BLOCK: Hardcoded secret detected in code. Use environment variables instead. / 阻止：检测到代码中的硬编码密钥。请改用环境变量。\" && exit 1 || exit 0'"
+          }
+        ]
+      },
+      {
+        "_comment_en": "Block AWS access keys in code",
+        "_comment_zh": "阻止代码中的 AWS 访问密钥",
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); echo \"$INPUT\" | grep -qE \"AKIA[0-9A-Z]{16}\" && echo \"BLOCK: AWS Access Key detected. Use IAM roles or environment variables. / 阻止：检测到 AWS 访问密钥。请使用 IAM 角色或环境变量。\" && exit 1 || exit 0'"
+          }
+        ]
+      },
+      {
+        "_comment_en": "Block private keys in code",
+        "_comment_zh": "阻止代码中的私钥",
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); echo \"$INPUT\" | grep -qE \"-----BEGIN (RSA |EC |DSA )?PRIVATE KEY-----\" && echo \"BLOCK: Private key detected in code. Use a secrets manager. / 阻止：检测到代码中的私钥。请使用密钥管理器。\" && exit 1 || exit 0'"
+          }
+        ]
+      },
+      {
+        "_comment_en": "Block common insecure patterns — eval(), exec() with user input, innerHTML assignment",
+        "_comment_zh": "阻止常见不安全模式 — eval()、带用户输入的 exec()、innerHTML 赋值",
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); echo \"$INPUT\" | grep -qE \"(eval\\(|exec\\(|dangerouslySetInnerHTML|document\\.write\\(|innerHTML\\s*=)\" && echo \"WARN: Potentially unsafe code pattern detected. Review carefully. / 警告：检测到潜在不安全的代码模式。请仔细审查。\" || exit 0'"
+          }
+        ]
+      },
+      {
+        "_comment_en": "Block raw SQL string concatenation",
+        "_comment_zh": "阻止原始 SQL 字符串拼接",
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); echo \"$INPUT\" | grep -qiE \"(SELECT|INSERT|UPDATE|DELETE|DROP).*\\+.*\\$|f\\\".*SELECT.*\\{\" && echo \"WARN: Possible SQL injection via string concatenation. Use parameterized queries. / 警告：可能通过字符串拼接导致 SQL 注入。请使用参数化查询。\" || exit 0'"
+          }
+        ]
+      }
+    ],
+
+    "PostToolUse": [
+      {
+        "_comment_en": "Run security linter after file creation/modification",
+        "_comment_zh": "文件创建/修改后运行安全检查工具",
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | grep -oP \"\\\"filePath\\\":\\s*\\\"\\K[^\\\"]+\" || true); if [ -n \"$FILE\" ] && [ -f \"$FILE\" ]; then case \"$FILE\" in *.py) if command -v bandit &>/dev/null; then bandit -q \"$FILE\" 2>/dev/null || echo \"Security issues found by bandit. / bandit 发现安全问题。\"; fi;; *.js|*.ts) if command -v npx &>/dev/null; then npx --yes eslint-plugin-security --no-install 2>/dev/null || true; fi;; esac; fi; exit 0'"
+          }
+        ]
+      },
+      {
+        "_comment_en": "Check for .env files being created (should be in .gitignore)",
+        "_comment_zh": "检查是否创建了 .env 文件（应在 .gitignore 中）",
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | grep -oP \"\\\"filePath\\\":\\s*\\\"\\K[^\\\"]+\" || true); if echo \"$FILE\" | grep -qE \"\\.env($|\\.)\"; then echo \"WARN: .env file created. Ensure it is in .gitignore and never committed. / 警告：已创建 .env 文件。请确保它在 .gitignore 中且永不提交。\"; fi; exit 0'"
+          }
+        ]
+      }
+    ]
+  },
+
+  "_blocked_patterns_comment_en": "The following patterns are blocked by the PreToolUse hooks above. This section is for documentation only.",
+  "_blocked_patterns_comment_zh": "以下模式被上述 PreToolUse 钩子阻止。此部分仅用于文档说明。",
+  "_blocked_patterns": [
+    {
+      "pattern": "API keys (AKIA*, sk-*, etc.)",
+      "pattern_zh": "API 密钥 (AKIA*、sk-* 等)",
+      "example": "AKIAIOSFODNN7EXAMPLE"
+    },
+    {
+      "pattern": "Hardcoded passwords and secrets",
+      "pattern_zh": "硬编码的密码和密钥",
+      "example": "password = 'my-secret-password'"
+    },
+    {
+      "pattern": "Private keys (PEM format)",
+      "pattern_zh": "私钥（PEM 格式）",
+      "example": "-----BEGIN RSA PRIVATE KEY-----"
+    },
+    {
+      "pattern": "Bearer tokens",
+      "pattern_zh": "Bearer 令牌",
+      "example": "Authorization: Bearer eyJhbGci..."
+    },
+    {
+      "pattern": "Connection strings with credentials",
+      "pattern_zh": "包含凭证的连接字符串",
+      "example": "postgresql://user:password@host/db"
+    }
+  ]
+}

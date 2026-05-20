@@ -1,0 +1,350 @@
+# =============================================================================
+# Comprehensive Claude Code Action Workflow
+# 综合 Claude Code Action 工作流
+# =============================================================================
+# A multi-job workflow that performs AI-powered code review, test validation,
+# and security checks on pull requests. Supports label-based triggers for
+# cost control.
+# 一个多任务工作流，对拉取请求执行 AI 驱动的代码审查、测试验证和安全检查。
+# 支持基于标签的触发以控制成本。
+#
+# Prerequisites / 前提条件:
+#   - ANTHROPIC_API_KEY repository secret / ANTHROPIC_API_KEY 仓库密钥
+#   - Create label "ai-review" in your repository / 在仓库中创建 "ai-review" 标签
+# =============================================================================
+
+name: Claude Code CI / Claude 代码 CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+  # Allow manual trigger for re-review / 允许手动触发重新审查
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review / 要审查的 PR 编号'
+        required: true
+        type: number
+
+permissions:
+  contents: read
+  pull-requests: write
+  security-events: write
+
+# Cancel in-progress runs for the same PR / 取消同一 PR 正在进行的运行
+concurrency:
+  group: claude-ci-${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+  cancel-in-progress: true
+
+jobs:
+  # ==========================================================================
+  # Gate job: Check if review should run / 门控任务：检查是否应运行审查
+  # ==========================================================================
+  should-review:
+    runs-on: ubuntu-latest
+    name: Check Review Conditions / 检查审查条件
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+      changed_files: ${{ steps.files.outputs.files }}
+    steps:
+      - name: Check trigger conditions / 检查触发条件
+        id: check
+        run: |
+          # Run if: label "ai-review" is added, or workflow_dispatch, or first PR open
+          # 运行条件：添加 "ai-review" 标签、手动触发、或首次打开 PR
+          EVENT="${{ github.event_name }}"
+          ACTION="${{ github.event.action }}"
+          LABEL="${{ github.event.label.name }}"
+          IS_DRAFT="${{ github.event.pull_request.draft }}"
+
+          # Skip draft PRs / 跳过草稿 PR
+          if [ "$IS_DRAFT" = "true" ]; then
+            echo "Skipping: PR is a draft. / 跳过：PR 是草稿。"
+            echo "should_run=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Check conditions / 检查条件
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            echo "Manual trigger detected. / 检测到手动触发。"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          elif [ "$ACTION" = "labeled" ] && [ "$LABEL" = "ai-review" ]; then
+            echo "Label 'ai-review' detected. / 检测到 'ai-review' 标签。"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          elif [ "$ACTION" = "opened" ]; then
+            echo "New PR opened. / 新 PR 已打开。"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          elif [ "$ACTION" = "synchronize" ]; then
+            echo "PR updated with new commits. / PR 有新提交更新。"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          else
+            echo "No matching trigger. Skipping. / 无匹配触发条件。跳过。"
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout / 检出
+        if: steps.check.outputs.should_run == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Get only changed files (cost control: don't review the entire repo)
+      # 仅获取变更文件（成本控制：不审查整个仓库）
+      - name: Get changed files / 获取变更文件
+        id: files
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | head -50)
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          FILE_COUNT=$(echo "$FILES" | wc -l)
+          echo "Changed files count / 变更文件数: $FILE_COUNT"
+
+          # Cost warning for large PRs / 大型 PR 的成本警告
+          if [ "$FILE_COUNT" -gt 30 ]; then
+            echo "::warning::Large PR with $FILE_COUNT files. Review costs may be high. / 大型 PR 包含 $FILE_COUNT 个文件。审查成本可能较高。"
+          fi
+
+  # ==========================================================================
+  # Job 1: AI Code Review / 任务 1：AI 代码审查
+  # ==========================================================================
+  review:
+    needs: should-review
+    if: needs.should-review.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    name: AI Code Review / AI 代码审查
+
+    steps:
+      - name: Checkout / 检出
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude Code Review / Claude 代码审查
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Review only the changed files in this PR. For each file, provide:
+            仅审查此 PR 中变更的文件。对每个文件提供：
+
+            1. A brief summary of the change / 变更的简要摘要
+            2. Potential bugs or issues / 潜在的错误或问题
+            3. Suggested improvements with code examples / 带代码示例的改进建议
+            4. Rate the change: Approved / Needs Changes / Needs Discussion
+               评价变更：批准 / 需要修改 / 需要讨论
+
+            Changed files / 变更文件:
+            ${{ needs.should-review.outputs.changed_files }}
+
+            Be concise. Focus on actionable feedback only.
+            请简洁。仅关注可操作的反馈。
+
+          model: claude-sonnet-4-20250514
+          max_tokens: 4096
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ==========================================================================
+  # Job 2: Test Coverage Analysis / 任务 2：测试覆盖率分析
+  # ==========================================================================
+  test-analysis:
+    needs: should-review
+    if: needs.should-review.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    name: Test Coverage Analysis / 测试覆盖率分析
+
+    steps:
+      - name: Checkout / 检出
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python / 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies / 安装依赖
+        run: pip install anthropic
+
+      - name: Analyze test coverage gaps / 分析测试覆盖率缺口
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CHANGED_FILES: ${{ needs.should-review.outputs.changed_files }}
+        run: |
+          python3 << 'PYEOF'
+          import os
+          import anthropic
+
+          client = anthropic.Anthropic()
+          changed_files = os.environ.get("CHANGED_FILES", "").strip().split("\n")
+
+          # Collect source files and their content / 收集源文件及其内容
+          file_contents = []
+          for f in changed_files:
+              f = f.strip()
+              if not f or not os.path.isfile(f):
+                  continue
+              # Skip test files themselves / 跳过测试文件本身
+              if "test" in f.lower() or "spec" in f.lower():
+                  continue
+              with open(f) as fh:
+                  content = fh.read()
+              # Limit per-file size to control token usage
+              # 限制每个文件大小以控制令牌使用
+              file_contents.append(f"### {f}\n```\n{content[:3000]}\n```")
+
+          if not file_contents:
+              print("No source files to analyze. / 没有需要分析的源文件。")
+              with open("test-analysis.md", "w") as out:
+                  out.write("No source files changed. / 没有源文件变更。\n")
+              exit(0)
+
+          combined = "\n\n".join(file_contents[:10])  # Max 10 files / 最多 10 个文件
+
+          message = client.messages.create(
+              model="claude-sonnet-4-20250514",
+              max_tokens=2048,
+              messages=[{
+                  "role": "user",
+                  "content": f"""Analyze these source files and identify missing test coverage.
+          分析这些源文件并识别缺失的测试覆盖。
+
+          {combined}
+
+          For each file, list:
+          对每个文件列出：
+          1. Functions/methods without tests / 没有测试的函数/方法
+          2. Missing edge case tests / 缺失的边界情况测试
+          3. Priority (High/Medium/Low) / 优先级（高/中/低）
+
+          Format as Markdown. Be concise.
+          以 Markdown 格式输出。请简洁。"""
+              }]
+          )
+
+          with open("test-analysis.md", "w") as out:
+              out.write(message.content[0].text)
+          PYEOF
+
+      # Post test analysis as PR comment / 将测试分析作为 PR 评论发布
+      - name: Post test analysis / 发布测试分析
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let analysis = 'No analysis generated. / 未生成分析。';
+            try {
+              analysis = fs.readFileSync('test-analysis.md', 'utf8');
+            } catch (e) { /* file not found */ }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## Test Coverage Analysis / 测试覆盖率分析\n\n${analysis}\n\n---\n> Generated by Claude / 由 Claude 生成`
+            });
+
+  # ==========================================================================
+  # Job 3: Security Check / 任务 3：安全检查
+  # ==========================================================================
+  security-check:
+    needs: should-review
+    if: needs.should-review.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    name: AI Security Check / AI 安全检查
+
+    steps:
+      - name: Checkout / 检出
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR diff / 获取 PR 差异
+        id: diff
+        run: |
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          # Limit diff size to control costs / 限制差异大小以控制成本
+          DIFF=$(git diff "$BASE_SHA" "$HEAD_SHA" | head -500)
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$DIFF" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Claude Security Review / Claude 安全审查
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Perform a security review of this code diff. Check for:
+            对此代码差异执行安全审查。检查以下内容：
+
+            1. **Hardcoded Secrets / 硬编码密钥** - API keys, passwords, tokens
+            2. **Injection Vulnerabilities / 注入漏洞** - SQL, XSS, command injection
+            3. **Authentication Issues / 认证问题** - Missing auth checks, weak validation
+            4. **Data Exposure / 数据泄露** - Logging sensitive data, verbose errors
+            5. **Dependency Risks / 依赖风险** - Known vulnerable patterns
+            6. **Input Validation / 输入验证** - Missing or insufficient validation
+            7. **OWASP Top 10 / OWASP 十大** - Any applicable OWASP issues
+
+            Diff:
+            ```
+            ${{ steps.diff.outputs.diff }}
+            ```
+
+            Rate overall security: PASS / WARN / FAIL
+            For each finding, provide: severity, location, and fix suggestion.
+            评价整体安全性：通过 / 警告 / 不通过
+            对每个发现提供：严重程度、位置和修复建议。
+
+          # Use opus for security reviews (higher accuracy)
+          # 安全审查使用 opus（更高准确度）
+          model: claude-opus-4-20250514
+          max_tokens: 4096
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ==========================================================================
+  # Summary job: Aggregate results / 汇总任务：聚合结果
+  # ==========================================================================
+  summary:
+    needs: [review, test-analysis, security-check]
+    if: always() && needs.should-review.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    name: Review Summary / 审查摘要
+
+    steps:
+      - name: Post summary / 发布摘要
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const results = {
+              review: '${{ needs.review.result }}',
+              tests: '${{ needs.test-analysis.result }}',
+              security: '${{ needs.security-check.result }}'
+            };
+
+            const statusEmoji = (s) => s === 'success' ? 'Pass' : s === 'failure' ? 'Fail' : 'Skip';
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: [
+                '## Claude CI Summary / Claude CI 摘要',
+                '',
+                '| Check / 检查 | Status / 状态 |',
+                '|---|---|',
+                `| Code Review / 代码审查 | ${statusEmoji(results.review)} |`,
+                `| Test Analysis / 测试分析 | ${statusEmoji(results.tests)} |`,
+                `| Security Check / 安全检查 | ${statusEmoji(results.security)} |`,
+                '',
+                '> All checks powered by Claude AI. Review suggestions before applying.',
+                '> 所有检查由 Claude AI 驱动。应用建议前请先审查。'
+              ].join('\n')
+            });

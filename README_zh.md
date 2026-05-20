@@ -119,6 +119,17 @@
 - [09 - Prompt 工程](guide/zh/09-prompt-engineering.md) — 从 Claude 获得最佳结果的技巧
 - [10 - 高级工作流](guide/zh/10-advanced-workflows.md) — 复杂的实际自动化模式
 
+### 生产与运维 🆕
+- [11 - 端到端实战](guide/zh/11-end-to-end-project.md) — 用 AI 从想法到部署完成一个完整应用
+- [12 - CI/CD 集成](guide/zh/12-cicd-integration.md) — AI 驱动的代码审查、测试和部署流水线
+- [13 - 成本与模型选择](guide/zh/13-cost-and-model-selection.md) — Opus vs Sonnet vs Haiku、Token 预算、省钱策略
+- [14 - 调试 AI 代码](guide/zh/14-debugging-ai-code.md) — AI 出错时：发现、恢复、预防
+
+### 团队与企业 🆕
+- [15 - 团队协作](guide/zh/15-team-workflows.md) — 多人 + AI 协作、PR 流程、新人入职
+- [16 - 安全合规](guide/zh/16-security-compliance.md) — Secrets 管理、OWASP、审计日志、合规
+- [17 - 大项目管理](guide/zh/17-large-codebase.md) — 10 万行代码的上下文策略、单仓库模式
+
 ---
 
 ## 模板
@@ -131,14 +142,24 @@
 | [CLAUDE-python.md](templates/CLAUDE-python.md) | Python 项目模板 |
 | [CLAUDE-typescript.md](templates/CLAUDE-typescript.md) | TypeScript/Node.js 项目模板 |
 | [CLAUDE-rust.md](templates/CLAUDE-rust.md) | Rust 项目模板 |
+| [CLAUDE-fullstack.md](templates/CLAUDE-fullstack.md) | 全栈项目模板（前端+后端+数据库）🆕 |
 | [系统 Prompt](templates/system-prompts/) | 代码审查、写作、分析等场景的 Prompt |
 | [Hook 脚本](templates/hooks/) | 预提交检查、自动测试等 |
+| [安全模板](templates/security/) | 安全钩子、AI 代码 OWASP 检查清单 🆕 |
 
 ---
 
 ## 代码示例
 
 按类别组织的可运行代码示例：
+
+### 全栈示例 🆕
+- [任务管理器 Demo](examples/fullstack-demo/) — 完整项目：CLAUDE.md + 钩子 + CI/CD + Docker
+
+### CI/CD 模板 🆕
+- [AI 代码审查](examples/cicd-templates/github-actions/ai-code-review.yml) — GitHub Actions：AI 审查每个 PR
+- [AI 测试生成](examples/cicd-templates/github-actions/ai-test-gen.yml) — 自动为改动文件生成测试
+- [GitLab CI](examples/cicd-templates/gitlab-ci/) — GitLab 等效流水线
 
 ### Claude Code
 - [Hook 配置](examples/claude-code/hooks/) — 自定义自动化 Hook

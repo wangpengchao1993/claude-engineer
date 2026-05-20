@@ -119,6 +119,17 @@ Brief description of what this project does.
 - [09 - Prompt Engineering](guide/en/09-prompt-engineering.md) — Techniques for getting the best results from Claude
 - [10 - Advanced Workflows](guide/en/10-advanced-workflows.md) — Complex real-world automation patterns
 
+### Production & Operations 🆕
+- [11 - End-to-End Project](guide/en/11-end-to-end-project.md) — Build a complete app from idea to deployment with AI
+- [12 - CI/CD Integration](guide/en/12-cicd-integration.md) — AI-powered code review, testing, and deployment pipelines
+- [13 - Cost & Model Selection](guide/en/13-cost-and-model-selection.md) — Opus vs Sonnet vs Haiku, token budgeting, cost saving
+- [14 - Debugging AI Code](guide/en/14-debugging-ai-code.md) — When AI gets it wrong: detection, recovery, prevention
+
+### Team & Enterprise 🆕
+- [15 - Team Workflows](guide/en/15-team-workflows.md) — Multi-person + AI collaboration, PR processes, onboarding
+- [16 - Security & Compliance](guide/en/16-security-compliance.md) — Secrets management, OWASP, audit logging, compliance
+- [17 - Large Codebase Management](guide/en/17-large-codebase.md) — 100K+ LOC projects, context strategies, monorepo patterns
+
 ---
 
 ## Templates
@@ -131,14 +142,24 @@ Ready-to-use templates — copy them directly into your projects:
 | [CLAUDE-python.md](templates/CLAUDE-python.md) | Python project template |
 | [CLAUDE-typescript.md](templates/CLAUDE-typescript.md) | TypeScript/Node.js project template |
 | [CLAUDE-rust.md](templates/CLAUDE-rust.md) | Rust project template |
+| [CLAUDE-fullstack.md](templates/CLAUDE-fullstack.md) | Full-stack project template (frontend + backend + DB) 🆕 |
 | [System Prompts](templates/system-prompts/) | Prompts for code review, writing, analysis, etc. |
 | [Hook Scripts](templates/hooks/) | Pre-commit linting, auto-testing, and more |
+| [Security Templates](templates/security/) | Security hooks, OWASP checklist for AI code 🆕 |
 
 ---
 
 ## Examples
 
 Runnable code samples organized by category:
+
+### Full-Stack Demo 🆕
+- [Task Manager Demo](examples/fullstack-demo/) — Complete project with CLAUDE.md + hooks + CI/CD + Docker
+
+### CI/CD Templates 🆕
+- [AI Code Review](examples/cicd-templates/github-actions/ai-code-review.yml) — GitHub Actions: AI reviews every PR
+- [AI Test Generation](examples/cicd-templates/github-actions/ai-test-gen.yml) — Auto-generate tests for changed files
+- [GitLab CI](examples/cicd-templates/gitlab-ci/) — GitLab equivalent pipelines
 
 ### Claude Code
 - [Hook configurations](examples/claude-code/hooks/) — Custom hooks for automation

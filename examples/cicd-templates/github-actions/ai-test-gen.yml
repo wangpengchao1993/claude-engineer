@@ -1,0 +1,239 @@
+# =============================================================================
+# AI Test Generation with Claude / 使用 Claude 进行 AI 测试生成
+# =============================================================================
+# This workflow identifies changed files on push to main, uses Claude to
+# suggest missing tests, and creates a PR with the suggested tests.
+# 此工作流在推送到 main 分支时识别变更文件，使用 Claude 建议缺失的测试，
+# 并创建包含建议测试的 PR。
+#
+# Prerequisites / 前提条件:
+#   - Set ANTHROPIC_API_KEY as a repository secret
+#     将 ANTHROPIC_API_KEY 设置为仓库密钥
+#   - The workflow needs write permissions for contents and pull-requests
+#     工作流需要 contents 和 pull-requests 的写入权限
+# =============================================================================
+
+name: AI Test Generation / AI 测试生成
+
+# Trigger on push to main branch / 在推送到 main 分支时触发
+on:
+  push:
+    branches: [main]
+    # Only trigger for source code changes / 仅对源代码变更触发
+    paths:
+      - 'src/**'
+      - 'lib/**'
+      - 'app/**'
+      - '**.py'
+      - '**.js'
+      - '**.ts'
+      - '**.go'
+      - '**.rs'
+      - '**.java'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Prevent multiple test-gen runs from overlapping
+# 防止多个测试生成运行重叠
+concurrency:
+  group: ai-test-gen-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  generate-tests:
+    runs-on: ubuntu-latest
+    name: Generate Missing Tests / 生成缺失测试
+
+    steps:
+      # Step 1: Checkout the repository / 步骤 1：检出仓库
+      - name: Checkout repository / 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit for diff / 需要上一个提交以获取差异
+
+      # Step 2: Identify changed source files / 步骤 2：识别变更的源文件
+      - name: Get changed files / 获取变更文件
+        id: changed
+        run: |
+          # Get list of changed files between HEAD~1 and HEAD
+          # 获取 HEAD~1 和 HEAD 之间的变更文件列表
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- \
+            '*.py' '*.js' '*.ts' '*.tsx' '*.jsx' '*.go' '*.rs' '*.java' \
+            | grep -v '__test__\|_test\.\|\.test\.\|\.spec\.\|test_' \
+            || true)
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No source files changed. Skipping test generation."
+            echo "没有源文件变更。跳过测试生成。"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changed source files / 变更的源文件:"
+            echo "$CHANGED_FILES"
+            # Store as a single line for later use / 存储为单行以便后续使用
+            echo "files<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      # Step 3: Set up Python for the Claude API script
+      # 步骤 3：为 Claude API 脚本设置 Python
+      - name: Set up Python / 设置 Python
+        if: steps.changed.outputs.has_changes == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies / 安装依赖
+        if: steps.changed.outputs.has_changes == 'true'
+        run: pip install anthropic
+
+      # Step 4: Generate tests using Claude API
+      # 步骤 4：使用 Claude API 生成测试
+      - name: Generate tests with Claude / 使用 Claude 生成测试
+        if: steps.changed.outputs.has_changes == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CHANGED_FILES: ${{ steps.changed.outputs.files }}
+        run: |
+          python3 << 'PYEOF'
+          import os
+          import anthropic
+
+          client = anthropic.Anthropic()
+          changed_files = os.environ["CHANGED_FILES"].strip().split("\n")
+          os.makedirs(".generated-tests", exist_ok=True)
+
+          for filepath in changed_files:
+              filepath = filepath.strip()
+              if not filepath or not os.path.isfile(filepath):
+                  continue
+
+              with open(filepath, "r") as f:
+                  source_code = f.read()
+
+              # Determine test file path / 确定测试文件路径
+              base, ext = os.path.splitext(filepath)
+              if ext == ".py":
+                  test_path = f".generated-tests/test_{os.path.basename(base)}{ext}"
+              elif ext in (".js", ".ts", ".jsx", ".tsx"):
+                  test_path = f".generated-tests/{os.path.basename(base)}.test{ext}"
+              elif ext == ".go":
+                  test_path = f".generated-tests/{os.path.basename(base)}_test{ext}"
+              elif ext == ".java":
+                  test_path = f".generated-tests/{os.path.basename(base)}Test{ext}"
+              elif ext == ".rs":
+                  test_path = f".generated-tests/{os.path.basename(base)}_test{ext}"
+              else:
+                  test_path = f".generated-tests/{os.path.basename(base)}.test{ext}"
+
+              print(f"Generating tests for / 为以下文件生成测试: {filepath}")
+
+              message = client.messages.create(
+                  model="claude-sonnet-4-20250514",
+                  max_tokens=4096,
+                  messages=[
+                      {
+                          "role": "user",
+                          "content": f"""Analyze the following source file and generate comprehensive unit tests.
+          分析以下源文件并生成全面的单元测试。
+
+          File path / 文件路径: {filepath}
+
+          Source code / 源代码:
+          ```
+          {source_code}
+          ```
+
+          Requirements / 要求:
+          1. Generate tests for all public functions/methods / 为所有公共函数/方法生成测试
+          2. Include edge cases (null, empty, boundary values) / 包含边界情况（空值、空集合、边界值）
+          3. Include error handling tests / 包含错误处理测试
+          4. Use the standard testing framework for this language / 使用该语言的标准测试框架
+          5. Add bilingual comments (English + Chinese) / 添加双语注释（英文 + 中文）
+          6. Only output the test code, no explanations / 仅输出测试代码，无需解释
+
+          Output ONLY the test file content, no markdown fences.
+          仅输出测试文件内容，不要 Markdown 代码围栏。"""
+                      }
+                  ]
+              )
+
+              test_content = message.content[0].text
+              with open(test_path, "w") as f:
+                  f.write(test_content)
+
+              print(f"  -> Written to / 已写入: {test_path}")
+
+          print("Test generation complete / 测试生成完成")
+          PYEOF
+
+      # Step 5: Create a branch and PR with generated tests
+      # 步骤 5：创建包含生成测试的分支和 PR
+      - name: Create PR with tests / 创建包含测试的 PR
+        if: steps.changed.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if any tests were generated / 检查是否生成了测试
+          if [ ! -d ".generated-tests" ] || [ -z "$(ls -A .generated-tests 2>/dev/null)" ]; then
+            echo "No tests generated. Skipping PR creation."
+            echo "未生成测试。跳过 PR 创建。"
+            exit 0
+          fi
+
+          # Configure git / 配置 git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create a new branch / 创建新分支
+          BRANCH_NAME="ai-tests/$(date +%Y%m%d-%H%M%S)-${GITHUB_SHA:0:7}"
+          git checkout -b "$BRANCH_NAME"
+
+          # Move generated tests to appropriate locations
+          # 将生成的测试移动到适当的位置
+          mkdir -p tests/ai-generated
+          cp .generated-tests/* tests/ai-generated/ 2>/dev/null || true
+          rm -rf .generated-tests
+
+          # Commit and push / 提交并推送
+          git add tests/ai-generated/
+          git commit -m "test: add AI-generated tests for recent changes
+
+          Auto-generated by Claude AI test generation workflow.
+          由 Claude AI 测试生成工作流自动生成。
+
+          Source commit: ${GITHUB_SHA:0:7}"
+
+          git push origin "$BRANCH_NAME"
+
+          # Create PR / 创建 PR
+          gh pr create \
+            --title "test: AI-generated tests for $(date +%Y-%m-%d) changes" \
+            --body "$(cat <<'PREOF'
+          ## AI-Generated Tests / AI 生成的测试
+
+          This PR contains automatically generated test suggestions for recently changed files.
+          此 PR 包含针对最近变更文件自动生成的测试建议。
+
+          ### Important / 重要提示
+
+          - **Review carefully before merging** / **合并前请仔细审查**
+          - These tests are AI-generated suggestions and may need adjustments / 这些测试是 AI 生成的建议，可能需要调整
+          - Verify test assertions match expected behavior / 验证测试断言与预期行为匹配
+          - Check that imports and dependencies are correct / 检查导入和依赖是否正确
+
+          ### Files / 文件
+
+          See the changed files tab for all generated tests.
+          请查看文件变更标签以查看所有生成的测试。
+
+          ---
+          > Generated by AI Test Generation workflow / 由 AI 测试生成工作流生成
+          PREOF
+          )" \
+            --label "ai-generated,tests" \
+            --base main \
+            --head "$BRANCH_NAME" || echo "PR creation failed. Labels may not exist. / PR 创建失败。标签可能不存在。"

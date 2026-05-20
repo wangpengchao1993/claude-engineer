@@ -1,0 +1,211 @@
+# =============================================================================
+# AI Code Review for GitLab CI / GitLab CI 的 AI 代码审查
+# =============================================================================
+# This pipeline stage reviews merge request diffs using the Claude API
+# and posts review comments directly on the MR.
+# 此流水线阶段使用 Claude API 审查合并请求差异，并直接在 MR 上发布审查评论。
+#
+# Prerequisites / 前提条件:
+#   - Set ANTHROPIC_API_KEY as a CI/CD variable (masked + protected)
+#     将 ANTHROPIC_API_KEY 设置为 CI/CD 变量（启用掩码 + 保护）
+#   - Set GITLAB_API_TOKEN as a CI/CD variable (for posting MR comments)
+#     将 GITLAB_API_TOKEN 设置为 CI/CD 变量（用于发布 MR 评论）
+#     (use a Project Access Token or Personal Access Token with api scope)
+#     （使用具有 api 权限的项目访问令牌或个人访问令牌）
+#
+# Usage / 使用方法:
+#   Include this file in your .gitlab-ci.yml:
+#   在你的 .gitlab-ci.yml 中引入此文件：
+#     include:
+#       - local: '.gitlab/ai-review.yml'
+# =============================================================================
+
+# Stage definition / 阶段定义
+stages:
+  - ai-review
+
+# =============================================================================
+# AI Code Review Job / AI 代码审查任务
+# =============================================================================
+ai-code-review:
+  stage: ai-review
+  image: python:3.12-slim
+
+  # Only run on merge requests / 仅在合并请求时运行
+  rules:
+    # Run on merge request events / 在合并请求事件时运行
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: on_success
+    # Skip if MR is a draft / 如果 MR 是草稿则跳过
+    - if: $CI_MERGE_REQUEST_TITLE =~ /^(Draft|WIP):/i
+      when: never
+
+  # Variables / 变量
+  variables:
+    # Model selection / 模型选择
+    CLAUDE_MODEL: "claude-sonnet-4-20250514"
+    # Maximum tokens for the response / 响应的最大令牌数
+    MAX_TOKENS: "4096"
+    # Maximum diff size in lines (cost control) / 最大差异行数（成本控制）
+    MAX_DIFF_LINES: "500"
+
+  # Install dependencies / 安装依赖
+  before_script:
+    - pip install --quiet anthropic requests
+
+  script:
+    - |
+      python3 << 'PYEOF'
+      import os
+      import subprocess
+      import json
+      import anthropic
+      import requests
+
+      # -----------------------------------------------------------------------
+      # Configuration / 配置
+      # -----------------------------------------------------------------------
+      ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+      GITLAB_API_TOKEN = os.environ.get("GITLAB_API_TOKEN", "")
+      GITLAB_URL = os.environ.get("CI_SERVER_URL", "https://gitlab.com")
+      PROJECT_ID = os.environ["CI_PROJECT_ID"]
+      MR_IID = os.environ["CI_MERGE_REQUEST_IID"]
+      SOURCE_BRANCH = os.environ["CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"]
+      TARGET_BRANCH = os.environ["CI_MERGE_REQUEST_TARGET_BRANCH_NAME"]
+      MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-20250514")
+      MAX_TOKENS = int(os.environ.get("MAX_TOKENS", "4096"))
+      MAX_DIFF_LINES = int(os.environ.get("MAX_DIFF_LINES", "500"))
+
+      print(f"Reviewing MR !{MR_IID}: {SOURCE_BRANCH} -> {TARGET_BRANCH}")
+      print(f"审查 MR !{MR_IID}: {SOURCE_BRANCH} -> {TARGET_BRANCH}")
+
+      # -----------------------------------------------------------------------
+      # Step 1: Get the diff / 步骤 1：获取差异
+      # -----------------------------------------------------------------------
+      # Use GitLab API to get MR diff / 使用 GitLab API 获取 MR 差异
+      headers = {"PRIVATE-TOKEN": GITLAB_API_TOKEN} if GITLAB_API_TOKEN else {}
+      diff_url = f"{GITLAB_URL}/api/v4/projects/{PROJECT_ID}/merge_requests/{MR_IID}/changes"
+      response = requests.get(diff_url, headers=headers)
+      response.raise_for_status()
+
+      mr_data = response.json()
+      changes = mr_data.get("changes", [])
+
+      if not changes:
+          print("No changes found in MR. Skipping review. / MR 中未发现变更。跳过审查。")
+          exit(0)
+
+      # Build a readable diff string / 构建可读的差异字符串
+      diff_parts = []
+      total_lines = 0
+      for change in changes:
+          file_path = change.get("new_path", change.get("old_path", "unknown"))
+          diff_text = change.get("diff", "")
+          diff_lines = diff_text.count("\n")
+
+          # Cost control: skip if we've exceeded the limit
+          # 成本控制：如果超过限制则跳过
+          if total_lines + diff_lines > MAX_DIFF_LINES:
+              diff_parts.append(f"\n### {file_path}\n(truncated / 已截断)")
+              break
+
+          diff_parts.append(f"\n### {file_path}\n```diff\n{diff_text}\n```")
+          total_lines += diff_lines
+
+      combined_diff = "\n".join(diff_parts)
+      print(f"Collected {total_lines} diff lines from {len(diff_parts)} files.")
+      print(f"收集了来自 {len(diff_parts)} 个文件的 {total_lines} 行差异。")
+
+      # -----------------------------------------------------------------------
+      # Step 2: Send to Claude for review / 步骤 2：发送给 Claude 进行审查
+      # -----------------------------------------------------------------------
+      client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+      review_prompt = f"""Review the following merge request diff and provide feedback.
+      审查以下合并请求差异并提供反馈。
+
+      MR: !{MR_IID} ({SOURCE_BRANCH} -> {TARGET_BRANCH})
+
+      {combined_diff}
+
+      Provide your review covering:
+      请提供涵盖以下内容的审查：
+      1. **Bugs & Logic Errors / 错误和逻辑问题** - Identify potential bugs
+      2. **Security Issues / 安全问题** - Flag security concerns
+      3. **Code Quality / 代码质量** - Suggest improvements
+      4. **Performance / 性能** - Note any performance concerns
+      5. **Overall Assessment / 总体评估** - Approve / Needs Changes
+
+      Format as Markdown. Be concise and actionable.
+      以 Markdown 格式输出。请简洁且可操作。"""
+
+      print("Sending to Claude for review... / 发送给 Claude 进行审查...")
+      message = client.messages.create(
+          model=MODEL,
+          max_tokens=MAX_TOKENS,
+          messages=[{"role": "user", "content": review_prompt}]
+      )
+
+      review_text = message.content[0].text
+      print("Review received. / 已收到审查结果。")
+
+      # -----------------------------------------------------------------------
+      # Step 3: Post review as MR comment / 步骤 3：将审查作为 MR 评论发布
+      # -----------------------------------------------------------------------
+      comment_body = f"""## AI Code Review / AI 代码审查
+
+      {review_text}
+
+      ---
+      > Model / 模型: `{MODEL}`
+      > This review was generated by Claude AI. Please verify all suggestions before applying.
+      > 此审查由 Claude AI 生成。请在应用前验证所有建议。"""
+
+      if GITLAB_API_TOKEN:
+          comment_url = f"{GITLAB_URL}/api/v4/projects/{PROJECT_ID}/merge_requests/{MR_IID}/notes"
+          comment_response = requests.post(
+              comment_url,
+              headers=headers,
+              json={"body": comment_body}
+          )
+          if comment_response.status_code in (200, 201):
+              print(f"Review posted to MR !{MR_IID} / 审查已发布到 MR !{MR_IID}")
+          else:
+              print(f"Failed to post comment: {comment_response.status_code}")
+              print(f"发布评论失败: {comment_response.status_code}")
+              print(comment_response.text)
+      else:
+          # If no token, just print the review / 如果没有令牌，仅打印审查结果
+          print("No GITLAB_API_TOKEN set. Printing review to stdout.")
+          print("未设置 GITLAB_API_TOKEN。将审查结果打印到标准输出。")
+          print("=" * 60)
+          print(review_text)
+          print("=" * 60)
+
+      # -----------------------------------------------------------------------
+      # Step 4: Report usage / 步骤 4：报告使用量
+      # -----------------------------------------------------------------------
+      usage = message.usage
+      print(f"\nAPI Usage / API 使用量:")
+      print(f"  Input tokens / 输入令牌: {usage.input_tokens}")
+      print(f"  Output tokens / 输出令牌: {usage.output_tokens}")
+      PYEOF
+
+  # Allow failure so it doesn't block the pipeline
+  # 允许失败以不阻塞流水线
+  allow_failure: true
+
+  # Cache pip packages / 缓存 pip 包
+  cache:
+    key: ai-review-pip
+    paths:
+      - .cache/pip
+
+  # Artifacts: save the review for reference / 产物：保存审查结果以供参考
+  artifacts:
+    when: always
+    expire_in: 7 days
+    paths:
+      - review-output.txt
+    reports:
+      dotenv: review.env
