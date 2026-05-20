@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/banner.png" alt="Claude Engineer Banner" width="800">
-</p>
-
 <h1 align="center">Claude Engineer</h1>
 
 <p align="center">
@@ -182,11 +178,9 @@ Runnable code samples organized by category:
 ### API & SDK
 - [Tool Use patterns](examples/api/tool-use/) — Function calling and tool integration
 - [Streaming](examples/api/streaming/) — Real-time streaming responses
-- [Multimodal](examples/api/multimodal/) — Image and PDF processing
 
 ### Agents
 - [Simple Agent](examples/agents/simple-agent/) — Basic agent with tools
-- [Multi-Agent](examples/agents/multi-agent/) — Agent orchestration patterns
 - [Code Review Bot](examples/agents/code-review-bot/) — Practical automated code reviewer
 
 ### AI Coding Workflow Frameworks / AI 编码工作流框架 🆕

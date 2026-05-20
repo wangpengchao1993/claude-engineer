@@ -144,6 +144,26 @@
 
 ---
 
+## Stage 5: Production / 生产落地 🆕
+
+> **Goal / 目标**: Ship AI-assisted code to production with confidence — end-to-end projects, CI/CD, cost control, team workflows, security, and large codebase management.
+> 自信地将 AI 辅助代码交付到生产环境——端到端项目、CI/CD、成本控制、团队协作、安全和大项目管理。
+
+| Step | Topic | Guide | 说明 |
+|------|-------|-------|------|
+| 5.1 | End-to-end project | [E2E Project](guide/en/11-end-to-end-project.md) / [端到端实战](guide/zh/11-end-to-end-project.md) | 从想法到部署的完整项目 |
+| 5.2 | CI/CD integration | [CI/CD](guide/en/12-cicd-integration.md) / [CI/CD 集成](guide/zh/12-cicd-integration.md) | AI 审查 PR、生成测试、安全扫描 |
+| 5.3 | Cost & model selection | [Cost](guide/en/13-cost-and-model-selection.md) / [成本与模型](guide/zh/13-cost-and-model-selection.md) | Opus/Sonnet/Haiku 选择、Token 省钱 |
+| 5.4 | Debugging AI code | [Debugging](guide/en/14-debugging-ai-code.md) / [调试 AI 代码](guide/zh/14-debugging-ai-code.md) | 幻觉、回滚、预防模式 |
+| 5.5 | Team workflows | [Teams](guide/en/15-team-workflows.md) / [团队协作](guide/zh/15-team-workflows.md) | 多人+AI 协作、PR 流程、入职 |
+| 5.6 | Security & compliance | [Security](guide/en/16-security-compliance.md) / [安全合规](guide/zh/16-security-compliance.md) | Secrets、OWASP、审计、合规 |
+| 5.7 | Large codebase | [Large Codebase](guide/en/17-large-codebase.md) / [大项目管理](guide/zh/17-large-codebase.md) | 10万行代码的上下文策略 |
+
+**Checkpoint / 检查点**: You can deliver complete projects end-to-end with AI, run AI-powered CI/CD pipelines, manage costs, work in teams, pass security audits, and handle large codebases.
+能端到端交付完整项目、运行 AI 驱动的 CI/CD、控制成本、团队协作、通过安全审计、管理大型代码库。
+
+---
+
 ## Quick Reference / 快速参考
 
 Not sure where to start? Here's a guide based on your role:
@@ -157,6 +177,8 @@ Not sure where to start? Here's a guide based on your role:
 | **Team Lead / 技术主管** | Stage 3 | Hooks 自动化、权限、模板标准化 |
 | **Platform Engineer / 平台工程师** | Stage 4 | API 集成、Agent SDK、CI/CD |
 | **AI Builder / AI 应用开发者** | Stage 4 | Agent SDK、Multi-Agent、Tool Use |
+| **Tech Lead / 技术负责人** | Stage 5 | 团队协作、安全合规、大项目管理 |
+| **Shipping to Production / 上线交付** | Stage 5 | 端到端实战、CI/CD、成本控制 |
 
 ---
 

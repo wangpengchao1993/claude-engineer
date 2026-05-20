@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/banner.png" alt="Claude Engineer Banner" width="800">
-</p>
-
 <h1 align="center">Claude Engineer</h1>
 
 <p align="center">
@@ -182,11 +178,9 @@
 ### API 与 SDK
 - [Tool Use 模式](examples/api/tool-use/) — 函数调用与工具集成
 - [流式处理](examples/api/streaming/) — 实时流式响应
-- [多模态](examples/api/multimodal/) — 图像和 PDF 处理
 
 ### Agent
 - [简单 Agent](examples/agents/simple-agent/) — 带工具的基础 Agent
-- [多 Agent](examples/agents/multi-agent/) — Agent 编排模式
 - [代码审查 Bot](examples/agents/code-review-bot/) — 实用的自动化代码审查工具
 
 ### AI 编码工作流框架 🆕
