@@ -130,6 +130,234 @@ while Superpowers excels at providing a consistent, structured development metho
 
 ---
 
+## Complete Setup Guide / 完整安装指南
+
+### Prerequisites / 前置条件
+
+| Requirement / 要求 | Version / 版本 | Purpose / 用途 |
+|---|---|---|
+| **Node.js** | 18+ | Runtime for Claude Code / Claude Code 运行时 |
+| **Claude Code CLI** | Latest / 最新 | AI coding assistant / AI 编码助手 |
+| **Git** | 2.30+ | Version control / 版本控制 |
+| **Python** | 3.10+ | Required for standalone Hermes / 独立版 Hermes 所需 |
+
+#### Install Prerequisites / 安装前置条件
+
+**Windows:**
+```powershell
+# Install Node.js via winget / 通过 winget 安装 Node.js
+winget install OpenJS.NodeJS.LTS
+
+# Install Git / 安装 Git
+winget install Git.Git
+
+# Install Python / 安装 Python
+winget install Python.Python.3.12
+
+# Install Claude Code CLI / 安装 Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+**macOS:**
+```bash
+# Install via Homebrew / 通过 Homebrew 安装
+brew install node@18 git python@3.12
+
+# Install Claude Code CLI / 安装 Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+# Install Node.js 18+ / 安装 Node.js 18+
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs git python3 python3-pip
+
+# Install Claude Code CLI / 安装 Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+### Step-by-Step Installation / 分步安装
+
+#### Option A: Claude Code Plugin (Recommended) / Claude Code 插件（推荐）
+
+```bash
+# 1. Install the hermes-CCC plugin / 安装 hermes-CCC 插件
+claude install hermes-ccc
+
+# 2. Verify installation / 验证安装
+claude
+> /hermes status
+# Should show: "Hermes CCC v2.x — 46 skills loaded"
+# 应显示: "Hermes CCC v2.x — 46 skills loaded"
+```
+
+#### Option B: Standalone / 独立安装
+
+```bash
+# 1. Install Hermes Agent / 安装 Hermes Agent
+pip install hermes-agent
+
+# 2. Initialize Hermes / 初始化 Hermes
+hermes init
+
+# 3. Verify installation / 验证安装
+hermes --version
+# Should show: hermes-agent 2.x.x
+```
+
+### Verification / 验证
+
+```bash
+# Check all components / 检查所有组件
+node --version          # Should be v18.x or higher / 应为 v18.x 或更高
+claude --version        # Should show Claude Code CLI version / 应显示 Claude Code CLI 版本
+hermes --version        # (Standalone only) Should show hermes-agent version / （仅独立版）
+claude
+> /hermes status        # (Plugin only) Should show 46 skills loaded / （仅插件版）应显示已加载 46 个技能
+```
+
+---
+
+## Real-World Walkthrough / 真实操作演示
+
+Below is a complete session showing Hermes learning and evolving across tasks.
+
+以下是一个完整的会话演示，展示 Hermes 如何在任务中学习和进化。
+
+### Step 1: Install hermes-CCC into Claude Code / 步骤1：安装 hermes-CCC 到 Claude Code
+
+```
+$ claude install hermes-ccc
+
+Installing hermes-ccc...
+✓ Downloaded hermes-ccc v2.4.1
+✓ Registered 46 native skills
+✓ Memory store initialized at ~/.hermes/memory.db
+
+Plugin hermes-ccc installed successfully.
+46 skills are now available in Claude Code.
+```
+
+### Step 2: First Task — Hermes Uses Baseline Skill / 步骤2：第一个任务 — Hermes 使用基线技能
+
+```
+$ claude
+> Write a Python function to parse CSV files with error handling
+
+Hermes [skill: file-parser v1] Executing with baseline skill...
+
+I'll create a CSV parser with comprehensive error handling:
+
+  def parse_csv(filepath, delimiter=',', encoding='utf-8'):
+      """Parse CSV file with error handling."""
+      import csv
+      try:
+          with open(filepath, 'r', encoding=encoding) as f:
+              reader = csv.DictReader(f, delimiter=delimiter)
+              return list(reader)
+      except FileNotFoundError:
+          raise ValueError(f"File not found: {filepath}")
+      except csv.Error as e:
+          raise ValueError(f"CSV parsing error at line {reader.line_num}: {e}")
+
+Hermes [learning] Task completed. Outcome: SUCCESS
+  - Pattern extracted: "CSV parsing benefits from DictReader over reader"
+  - Skill 'file-parser' updated: v1 → v1.1 (added DictReader preference)
+```
+
+### Step 3: Second Task — Hermes Applies What It Learned / 步骤3：第二个任务 — Hermes 应用学到的知识
+
+```
+> Now parse a TSV file with the same approach
+
+Hermes [skill: file-parser v1.1] Applying learned patterns...
+  - Recalled: "DictReader preferred for tabular data"
+  - Recalled: "delimiter should be parameterized"
+
+I'll reuse the pattern from the CSV parser with TSV defaults:
+
+  def parse_tsv(filepath, encoding='utf-8'):
+      """Parse TSV file, reusing learned CSV patterns."""
+      return parse_csv(filepath, delimiter='\t', encoding=encoding)
+
+Hermes [learning] Task completed. Outcome: SUCCESS
+  - Pattern extracted: "Tabular parsers should share a common base"
+  - Skill 'file-parser' updated: v1.1 → v1.2 (generalized to any delimiter)
+```
+
+### Step 4: Memory Persists Across Sessions / 步骤4：跨会话记忆保持
+
+```
+$ claude   # Close and reopen Claude Code / 关闭并重新打开 Claude Code
+> Parse an Excel file with similar error handling
+
+Hermes [memory] Loading persistent context...
+  - Recalled 2 prior interactions about file parsing
+  - Active skill: file-parser v1.2
+
+Hermes [skill: file-parser v1.2] Applying cross-session knowledge...
+
+I remember our CSV/TSV work. For Excel, I'll follow the same
+error-handling pattern but use openpyxl:
+
+  def parse_excel(filepath, sheet_name=None):
+      """Parse Excel file following established error patterns."""
+      import openpyxl
+      try:
+          wb = openpyxl.load_workbook(filepath, read_only=True)
+          sheet = wb[sheet_name] if sheet_name else wb.active
+          headers = [cell.value for cell in next(sheet.iter_rows())]
+          return [dict(zip(headers, [c.value for c in row]))
+                  for row in sheet.iter_rows(min_row=2)]
+      except FileNotFoundError:
+          raise ValueError(f"File not found: {filepath}")
+      except openpyxl.utils.exceptions.InvalidFileException:
+          raise ValueError(f"Invalid Excel file: {filepath}")
+
+Hermes [learning] Skill 'file-parser' updated: v1.2 → v1.3
+  - Added: Excel support via openpyxl
+  - Pattern: "All file parsers return list of dicts for consistency"
+```
+
+### Step 5: Skill Evolution Summary / 步骤5：技能进化总结
+
+```
+> /hermes skills show file-parser
+
+Skill: file-parser
+  Version: v1.3 (evolved through 3 tasks)
+  Evolution history:
+    v1.0  — Baseline CSV parser
+    v1.1  — Learned: prefer DictReader
+    v1.2  — Learned: generalize delimiters
+    v1.3  — Learned: extend to Excel, consistent dict output
+
+  Patterns learned:
+    1. "DictReader preferred for tabular data"
+    2. "Tabular parsers should share a common base"
+    3. "All file parsers return list of dicts for consistency"
+
+  Memory entries: 3 interactions, 3 patterns
+```
+
+---
+
+## Troubleshooting / 常见问题
+
+| Problem / 问题 | Cause / 原因 | Solution / 解决方案 |
+|---|---|---|
+| `claude install hermes-ccc` fails | npm not in PATH or outdated | Run `npm install -g @anthropic-ai/claude-code` first, then retry / 先运行 `npm install -g @anthropic-ai/claude-code`，然后重试 |
+| `pip install hermes-agent` permission error | System Python restricted | Use `pip install --user hermes-agent` or a virtual environment / 使用 `pip install --user hermes-agent` 或虚拟环境 |
+| `/hermes status` shows 0 skills | Plugin not properly loaded | Run `claude plugins list` to verify; reinstall with `claude install hermes-ccc` / 运行 `claude plugins list` 验证；用 `claude install hermes-ccc` 重装 |
+| Memory not persisting | Memory database path issue | Check `~/.hermes/memory.db` exists; run `hermes init` to recreate / 检查 `~/.hermes/memory.db` 是否存在；运行 `hermes init` 重新创建 |
+| Skills not evolving | Learning loop disabled | Ensure `hermes config set learning.enabled true` / 确保设置 `hermes config set learning.enabled true` |
+| `hermes init` hangs on Windows | Python PATH conflict | Use full path: `py -3 -m hermes init` / 使用完整路径：`py -3 -m hermes init` |
+| Slow skill execution | Large memory database | Run `hermes memory compact` to optimize / 运行 `hermes memory compact` 优化 |
+| Claude Code cannot find Hermes | Node.js version too old | Upgrade to Node.js 18+: `nvm install 18 && nvm use 18` / 升级到 Node.js 18+ |
+
+---
+
 ## Learn More / 了解更多
 
 - GitHub: [github.com/NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)

@@ -187,6 +187,160 @@ expensive. It shines on features that take more than 15 minutes.
 
 ---
 
+## Complete Setup Guide / 完整安装指南
+
+### Prerequisites / 前置条件
+
+Before installing Superpowers, you need:
+在安装 Superpowers 之前，你需要：
+
+1. **Node.js 18+**
+   - Windows: Download from https://nodejs.org → run installer → restart terminal
+   - macOS: `brew install node` or download from https://nodejs.org
+   - Linux: `curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs`
+   - Verify: `node --version`  (should show v18.x or higher)
+
+2. **Claude Code CLI**
+   - Install: `npm install -g @anthropic-ai/claude-code`
+   - Verify: `claude --version`
+   - Login: `claude` (follow prompts to authenticate with your Anthropic API key)
+
+3. **Git**
+   - Windows: Download from https://git-scm.com
+   - macOS: `xcode-select --install` or `brew install git`
+   - Linux: `sudo apt install git`
+
+### Step-by-Step Installation / 分步安装
+
+#### Method 1: Plugin Install (Recommended) / 插件安装（推荐）
+
+```bash
+# Step 1: Open your project directory / 打开你的项目目录
+cd /path/to/your/project
+
+# Step 2: Install the plugin / 安装插件
+claude plugin add obra/superpowers
+
+# Step 3: Verify installation / 验证安装
+# Open Claude Code and type /brainstorm - if it works, you're set!
+claude
+# Then type: /brainstorm
+```
+
+#### Method 2: Manual Install / 手动安装
+
+```bash
+# Step 1: Clone Superpowers / 克隆 Superpowers
+git clone https://github.com/obra/superpowers.git
+
+# Step 2: Copy skills to your project / 复制技能到你的项目
+# On macOS/Linux:
+cp -r superpowers/.claude/ /path/to/your/project/.claude/
+# On Windows (PowerShell):
+Copy-Item -Recurse superpowers\.claude\ C:\path\to\your\project\.claude\
+
+# Step 3: Open Claude Code in your project / 在项目中打开 Claude Code
+cd /path/to/your/project
+claude
+```
+
+### Real-World Walkthrough / 真实操作演示
+
+Here's a complete session building a "URL shortener" feature from scratch:
+以下是从零开始构建"短链接服务"的完整会话：
+
+```
+# Step 1: Start Claude Code in your project
+cd my-project
+claude
+
+# Step 2: Start brainstorming (Superpowers will ask questions first!)
+You:    /brainstorm I need a URL shortener service
+
+Claude: Before writing any code, I need to understand the requirements.
+        在写任何代码之前，我需要了解需求。
+
+        1. What's the expected traffic? (100/day or 1M/day?)
+           预期流量是多少？(100/天还是100万/天？)
+        2. Do you need custom short URLs (e.g., mysite.com/sale)?
+           是否需要自定义短链接？
+        3. Should links expire?
+           链接是否需要过期？
+        4. What's your tech stack? (Python/Node/Go?)
+           你的技术栈是什么？
+        5. Do you need analytics (click tracking)?
+           是否需要分析（点击追踪）？
+
+You:    Low traffic, no custom URLs, no expiry, Python Flask, yes to analytics
+
+# Step 3: Claude generates a spec (you must approve it!)
+Claude: /spec
+        Here's the specification for your URL shortener:
+        以下是短链接服务的规格说明：
+
+        ## Functional Requirements / 功能需求
+        - POST /shorten: accepts a URL, returns a short code
+        - GET /<code>: redirects to the original URL
+        - GET /stats/<code>: returns click count and last accessed time
+        ...
+
+        Do you approve this spec? (yes/no/changes needed)
+        你是否批准此规格？（是/否/需要修改）
+
+You:    yes
+
+# Step 4: Claude creates a plan with small tasks
+Claude: /plan
+        Breaking this into 5 tasks (~3 minutes each):
+        将此拆分为 5 个任务（每个约 3 分钟）：
+
+        Task 1: Set up Flask app + database model
+        Task 2: Implement POST /shorten endpoint + tests
+        Task 3: Implement GET /<code> redirect + tests
+        Task 4: Implement GET /stats/<code> + tests
+        Task 5: Add input validation + error handling + tests
+
+# Step 5: TDD - Claude writes tests FIRST, then code
+Claude: /tdd Starting Task 1...
+        Writing test first: test_url_model.py
+        先写测试：test_url_model.py
+        ✅ Test written (RED - fails because code doesn't exist yet)
+           测试已写好（红灯 - 因为代码还不存在所以失败）
+
+        Now implementing: models.py
+        现在实现：models.py
+        ✅ Implementation done (GREEN - test passes!)
+           实现完成（绿灯 - 测试通过！）
+
+        Refactoring...
+        重构中...
+        ✅ Refactored (still GREEN)
+           重构完成（仍然绿灯）
+
+# Steps 6-7: Each remaining task follows the same TDD cycle
+# Subagents handle each task with fresh context
+
+# Step 8: Final review
+Claude: /review
+        All 5 tasks complete. Checking against spec...
+        全部 5 个任务完成。正在对照规格检查...
+        ✅ All requirements met
+        ✅ All tests passing (15/15)
+        ✅ Code quality checks passed
+```
+
+### Troubleshooting / 常见问题
+
+| Problem / 问题 | Solution / 解决方案 |
+|----------------|---------------------|
+| `/brainstorm` command not found / 命令未找到 | Make sure `.claude/` directory exists in your project root. Re-run `claude plugin add obra/superpowers` / 确保项目根目录有 `.claude/` 目录 |
+| Claude writes code without brainstorming / Claude 跳过头脑风暴直接写代码 | Start your request with `/brainstorm` explicitly / 明确以 `/brainstorm` 开始你的请求 |
+| Subagent context seems stale / 子代理上下文似乎过时 | Run `/compact` before starting a new task / 在开始新任务前运行 `/compact` |
+| Plugin install fails / 插件安装失败 | Try manual install method (clone + copy) / 尝试手动安装（克隆+复制）|
+| Windows path issues / Windows 路径问题 | Use PowerShell instead of CMD, use backslashes in paths / 使用 PowerShell，路径用反斜杠 |
+
+---
+
 *This document is part of the Claude Engineer examples collection.*
 
 *本文档是 Claude Engineer 示例集的一部分。*

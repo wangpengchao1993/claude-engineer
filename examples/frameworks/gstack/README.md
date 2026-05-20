@@ -163,6 +163,383 @@ They are complementary. Some developers use both.
 
 ---
 
+---
+
+## Complete Setup Guide / 完整安装指南
+
+### Prerequisites / 前置要求
+
+Before installing GStack, ensure you have the following:
+
+安装 GStack 之前，请确保已安装以下工具：
+
+| Requirement / 要求 | Minimum Version / 最低版本 | Purpose / 用途 |
+|---|---|---|
+| **Node.js** | 18+ | Required for Claude Code CLI / Claude Code CLI 运行所需 |
+| **npm** | 9+ | Package manager (comes with Node.js) / 包管理器（随 Node.js 附带） |
+| **Claude Code CLI** | Latest | AI coding assistant / AI 编程助手 |
+| **Git** | 2.30+ | Version control / 版本控制 |
+
+#### Install prerequisites by OS / 按操作系统安装前置工具
+
+**Windows:**
+
+```powershell
+# Install Node.js via winget
+winget install OpenJS.NodeJS.LTS
+
+# Install Git
+winget install Git.Git
+
+# Install Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+**macOS:**
+
+```bash
+# Install Node.js via Homebrew
+brew install node@18
+
+# Install Git (usually pre-installed, otherwise)
+brew install git
+
+# Install Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+**Linux (Ubuntu/Debian):**
+
+```bash
+# Install Node.js via NodeSource
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Install Git
+sudo apt-get install -y git
+
+# Install Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+### Step-by-Step Installation / 逐步安装
+
+GStack is installed by copying slash command files into your project's `.claude/commands/` directory.
+
+GStack 通过将斜杠命令文件复制到项目的 `.claude/commands/` 目录来安装。
+
+```bash
+# 1. Clone the GStack repository / 克隆 GStack 仓库
+git clone https://github.com/garrytan/gstack.git
+
+# 2. Navigate to your project / 进入你的项目目录
+cd your-project
+
+# 3. Create the Claude commands directory if it doesn't exist
+# 如果不存在，创建 Claude 命令目录
+mkdir -p .claude/commands
+
+# 4. Copy all GStack commands / 复制所有 GStack 命令
+cp -r /path/to/gstack/commands/* .claude/commands/
+
+# 5. Start Claude Code / 启动 Claude Code
+claude
+```
+
+**One-liner (all platforms) / 一行命令（所有平台）：**
+
+```bash
+git clone https://github.com/garrytan/gstack.git /tmp/gstack && mkdir -p .claude/commands && cp -r /tmp/gstack/commands/* .claude/commands/
+```
+
+**Windows PowerShell equivalent / Windows PowerShell 等价命令：**
+
+```powershell
+git clone https://github.com/garrytan/gstack.git $env:TEMP\gstack; New-Item -ItemType Directory -Force -Path .claude\commands; Copy-Item -Recurse "$env:TEMP\gstack\commands\*" .claude\commands\
+```
+
+### Verification / 验证安装
+
+```bash
+# Verify Node.js / 验证 Node.js
+node --version
+# Expected: v18.x.x or higher / 预期: v18.x.x 或更高
+
+# Verify Claude Code is available / 验证 Claude Code 可用
+claude --version
+
+# Verify commands were copied / 验证命令已复制
+ls .claude/commands/
+# Expected: ceo-review.md, arch-lock.md, design-review.md,
+#           code-review.md, qa-browser.md, security-audit.md,
+#           ship-pr.md, standup.md, retro.md, and more
+# 预期：上述命令文件
+
+# Inside Claude Code, verify commands are discovered
+# 在 Claude Code 内验证命令已被发现
+# Type: / and press Tab to see all available slash commands
+# 输入: / 然后按 Tab 查看所有可用斜杠命令
+```
+
+---
+
+## Real-World Walkthrough / 真实操作演示
+
+Below is a complete GStack session building a user dashboard feature for a SaaS app. This demonstrates how each team member contributes their specialized expertise to produce production-ready code.
+
+以下是使用 GStack 为 SaaS 应用构建用户仪表板功能的完整会话。演示每个团队成员如何贡献其专业知识来产出生产级代码。
+
+### Step 1: CEO Review -- Should we build this? / 第一步：CEO 审查——该不该做？
+
+```
+$ cd saas-app
+$ claude
+
+You: I want to add a real-time analytics dashboard showing user
+     engagement metrics, revenue charts, and team activity.
+
+You: /ceo-review
+
+Claude (as CEO):
+  🎯 CEO Review: Real-time Analytics Dashboard
+
+  VERDICT: GO -- with scope reduction
+
+  Strategic Assessment:
+  ✅ High value: Dashboards are the #1 requested feature in user surveys
+  ✅ Retention driver: Users who view analytics have 3x higher retention
+  ⚠️ Scope concern: "Real-time" adds significant infrastructure cost
+
+  Recommendation:
+  - Build the dashboard with NEAR-real-time (5-minute refresh)
+    instead of true real-time (WebSocket). This covers 95% of the
+    value at 20% of the infrastructure cost.
+  - Phase 1: Engagement metrics + revenue charts
+  - Phase 2: Team activity (defer to next sprint)
+
+  Proceed with Phase 1 scope? This is a high-leverage feature.
+```
+
+### Step 2: Architecture Lock -- Define constraints / 第二步：架构锁定——定义约束
+
+```
+You: /arch-lock
+
+Claude (as Eng Manager):
+  🔒 Architecture Lock: Dashboard Feature
+
+  CONSTRAINTS (violations will be flagged in code review):
+
+  1. Data layer: Use existing PostgreSQL -- NO new databases.
+     We already have pg_cron for scheduled jobs. Use materialized
+     views refreshed every 5 minutes for dashboard queries.
+
+  2. API pattern: Follow existing REST conventions in src/api/.
+     New routes under /api/v1/analytics/*.
+     Return shape: { data: T, meta: { refreshedAt: string } }
+
+  3. Frontend: Use existing Chart.js library (already in bundle).
+     Do NOT add a new charting library. Dashboard goes in
+     src/components/dashboard/ following existing component patterns.
+
+  4. Auth: Dashboard requires 'analytics:read' permission.
+     Use existing RBAC middleware. No new auth patterns.
+
+  5. Testing: Minimum 80% coverage on new service layer code.
+
+  These constraints are now locked. /code-review will enforce them.
+```
+
+### Step 3: Design Review -- Catch AI slop / 第三步：设计审查——发现 AI 水货
+
+```
+You: [after building initial UI]
+
+You: /design-review
+
+Claude (as Designer):
+  🎨 Design Review: Dashboard UI
+
+  AI SLOP DETECTED -- 3 issues:
+
+  ❌ Issue 1: Generic card layout
+     You're using the default "3 cards in a row" pattern that every
+     AI generates. Your app uses a distinctive sidebar-metric style
+     everywhere else. Match the existing pattern.
+
+  ❌ Issue 2: Default Chart.js colors
+     The charts use Chart.js default blue/red/green. Your app's
+     design system uses specific brand colors defined in
+     tailwind.config.ts under theme.colors.chart.*.
+
+  ❌ Issue 3: No empty state
+     When there's no data yet, the dashboard shows a blank white
+     screen. Design an empty state with an illustration and
+     "Start tracking" CTA -- consistent with your onboarding flow.
+
+  Required changes:
+  1. Replace card grid with sidebar-metric layout from DesignSystem.md
+  2. Use theme.colors.chart.* for all Chart.js datasets
+  3. Add empty state component matching src/components/EmptyState.tsx
+
+  Fix these before proceeding to code review.
+```
+
+### Step 4: Code Review -- Find production bugs / 第四步：代码审查——发现生产级 Bug
+
+```
+You: [after fixing design issues]
+
+You: /code-review
+
+Claude (as Code Reviewer):
+  🔍 Code Review: Dashboard Implementation
+
+  BUGS FOUND -- 2 critical, 1 warning:
+
+  🔴 CRITICAL: SQL injection in date range filter
+     File: src/api/analytics/revenue.ts:42
+     You're interpolating user-provided startDate directly into
+     the SQL query. Use parameterized queries via Drizzle.
+
+  🔴 CRITICAL: Missing auth middleware
+     File: src/api/analytics/index.ts:8
+     The /api/v1/analytics/engagement route has no auth middleware.
+     All other routes in the file use requirePermission('analytics:read').
+     This is an exposed endpoint.
+
+  🟡 WARNING: Architecture violation
+     File: src/api/analytics/revenue.ts:15
+     You're importing from src/components/ in an API route.
+     This violates the existing layered architecture.
+     Move shared types to src/types/analytics.ts.
+
+  Blocking merge until critical issues are resolved.
+```
+
+### Step 5: QA Browser Testing / 第五步：浏览器 QA 测试
+
+```
+You: [after fixing bugs]
+
+You: /qa-browser
+
+Claude (as QA Lead):
+  🧪 Browser Testing: Dashboard Feature
+
+  Launching Playwright browser...
+
+  Test Scenarios:
+  ✅ Dashboard loads within 2 seconds on desktop (1280x720)
+  ✅ Charts render correctly with sample data
+  ✅ Empty state displays when no data exists
+  ✅ Date range picker filters data correctly
+  ✅ Dashboard is responsive at mobile breakpoints (375px, 768px)
+  ✅ Unauthorized user gets 403, not a blank page
+  ⚠️ Charts overlap sidebar at 1024px tablet breakpoint
+  ✅ Data refreshes every 5 minutes without page reload
+
+  Results: 7/8 passing, 1 layout issue at tablet breakpoint.
+
+  Screenshot saved: .qa/screenshots/tablet-overlap.png
+  Fix the 1024px breakpoint, then we can ship.
+```
+
+### Step 6: Security Audit / 第六步：安全审计
+
+```
+You: [after fixing tablet layout]
+
+You: /security-audit
+
+Claude (as Security Officer):
+  🛡️ Security Audit: Dashboard Feature
+
+  OWASP Top 10 Check:
+  ✅ A01 Broken Access Control -- RBAC enforced on all routes
+  ✅ A02 Cryptographic Failures -- No sensitive data in responses
+  ✅ A03 Injection -- Parameterized queries (fixed from code review)
+  ✅ A04 Insecure Design -- Rate limiting on analytics endpoints
+  ✅ A05 Security Misconfiguration -- CORS properly scoped
+  ✅ A06 Vulnerable Components -- No new dependencies added
+  ✅ A07 Auth Failures -- JWT validation on all routes
+  ✅ A08 Data Integrity -- Response checksums verified
+  ⚠️ A09 Logging -- Analytics queries not logged for audit trail
+  ✅ A10 SSRF -- No external URL fetching
+
+  STRIDE Threat Model:
+  ✅ Spoofing: JWT required
+  ✅ Tampering: Parameterized queries prevent SQL manipulation
+  ✅ Repudiation: ⚠️ Add audit logging for analytics access
+  ✅ Information Disclosure: No PII in analytics responses
+  ✅ Denial of Service: Rate limiting in place
+  ✅ Elevation of Privilege: RBAC enforced
+
+  Result: PASS with 1 recommendation
+  Add audit logging for analytics endpoint access before shipping.
+```
+
+### Step 7: Ship the PR / 第七步：发布 PR
+
+```
+You: [after adding audit logging]
+
+You: /ship-pr
+
+Claude (as Release Engineer):
+  🚀 Shipping: Dashboard Feature
+
+  Pre-flight checks:
+  ✅ All tests pass (42 new tests, 100% of new code covered)
+  ✅ TypeScript compiles cleanly
+  ✅ No lint errors
+  ✅ Design review: APPROVED
+  ✅ Code review: APPROVED
+  ✅ Security audit: PASSED
+  ✅ QA browser testing: PASSED
+
+  Creating pull request...
+
+  PR #287: Add near-real-time analytics dashboard
+  ├── 18 files changed, +1,247 -23
+  ├── Linked to: FEAT-1042
+  ├── Reviewers: auto-assigned based on CODEOWNERS
+  ├── Labels: feature, analytics
+  └── URL: https://github.com/your-org/saas-app/pull/287
+
+  Changelog entry added to CHANGELOG.md.
+  Ready for human review and merge.
+```
+
+### Why Every Step Mattered / 为什么每一步都很重要
+
+Without GStack's opinionated reviewers, this feature would have shipped with:
+- SQL injection vulnerability (caught by `/code-review`)
+- Missing authentication on an endpoint (caught by `/code-review`)
+- Generic AI-generated UI that doesn't match the app (caught by `/design-review`)
+- Tablet layout breakage (caught by `/qa-browser`)
+- Missing audit trail (caught by `/security-audit`)
+- Over-scoped real-time requirement (caught by `/ceo-review`)
+
+没有 GStack 的有主见审查员，这个功能上线时会带着：SQL 注入漏洞、缺失的端点认证、与应用风格不符的 AI 模板 UI、平板布局错位、缺失的审计日志、以及过度设计的实时需求。
+
+---
+
+## Troubleshooting / 常见问题
+
+| Problem / 问题 | Cause / 原因 | Solution / 解决方案 |
+|---|---|---|
+| Slash commands not showing in Claude Code | Commands not in `.claude/commands/` directory / 命令不在 `.claude/commands/` 目录 | Verify: `ls .claude/commands/` -- files must be `.md` format / 验证文件存在且为 `.md` 格式 |
+| `git clone` fails for GStack repo | Network issue or repo URL changed / 网络问题或仓库地址变更 | Check [github.com/garrytan/gstack](https://github.com/garrytan/gstack) for the current URL / 访问 GitHub 确认当前地址 |
+| `/qa-browser` cannot launch browser | Playwright or browser not installed / Playwright 或浏览器未安装 | Run `npx playwright install` to install browsers / 运行 `npx playwright install` 安装浏览器 |
+| `/security-audit` produces shallow results | Not enough code context provided / 未提供足够的代码上下文 | Specify the feature scope: `/security-audit the new analytics dashboard in src/api/analytics/` / 指定功能范围 |
+| Commands return generic responses | `.claude/CLAUDE.md` not configured / CLAUDE.md 未配置 | Ensure your project has a CLAUDE.md with project-specific context / 确保项目有包含项目上下文的 CLAUDE.md |
+| `claude` command not found | Claude Code CLI not installed globally / Claude Code CLI 未全局安装 | Run `npm install -g @anthropic-ai/claude-code` / 运行全局安装命令 |
+| `/design-review` misses project style | No design system documentation in project / 项目中无设计系统文档 | Add a DesignSystem.md or reference your Tailwind config in CLAUDE.md / 添加设计系统文档或在 CLAUDE.md 中引用 Tailwind 配置 |
+| `/ship-pr` fails to create PR | Not on a feature branch or no remote configured / 不在功能分支或无远程仓库 | Create a branch first: `git checkout -b feat/your-feature` and push / 先创建分支并推送 |
+
+---
+
 *GStack shows that the best AI coding isn't about one mega-prompt --
 it's about assembling a team of specialists, each with strong opinions.*
 

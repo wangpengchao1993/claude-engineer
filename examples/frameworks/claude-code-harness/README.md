@@ -169,6 +169,284 @@ choose GSD when you want a **lightweight, zero-dependency** approach.
 
 ---
 
+## Complete Setup Guide / 完整安装指南
+
+### Prerequisites / 前置条件
+
+| Requirement / 要求 | Version / 版本 | Purpose / 用途 |
+|---|---|---|
+| **Node.js** | 18+ | Runtime for Claude Code / Claude Code 运行时 |
+| **Claude Code CLI** | Latest / 最新 | AI coding assistant / AI 编码助手 |
+| **Git** | 2.30+ | Version control / 版本控制 |
+| **Go** | 1.21+ | Guardrail engine compilation / 护栏引擎编译 |
+| **Make** | Any | Build automation / 构建自动化 |
+
+#### Install Prerequisites / 安装前置条件
+
+**Windows:**
+```powershell
+# Install Node.js via winget / 通过 winget 安装 Node.js
+winget install OpenJS.NodeJS.LTS
+
+# Install Git / 安装 Git
+winget install Git.Git
+
+# Install Go / 安装 Go
+winget install GoLang.Go
+
+# Install Make (via Chocolatey) / 通过 Chocolatey 安装 Make
+choco install make
+
+# Install Claude Code CLI / 安装 Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+**macOS:**
+```bash
+# Install via Homebrew / 通过 Homebrew 安装
+brew install node@18 git go make
+
+# Install Claude Code CLI / 安装 Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+# Install Node.js 18+, Git, Go, Make / 安装 Node.js 18+, Git, Go, Make
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs git golang-go make
+
+# Install Claude Code CLI / 安装 Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+```
+
+### Step-by-Step Installation / 分步安装
+
+```bash
+# 1. Clone the Harness repository / 克隆 Harness 仓库
+git clone https://github.com/Chachamaru127/claude-code-harness.git
+cd claude-code-harness
+
+# 2. Install and build (compiles the Go guardrail engine)
+#    安装并构建（编译 Go 护栏引擎）
+make install
+
+# 3. Navigate to your project / 进入你的项目目录
+cd /path/to/your-project
+
+# 4. Initialize Harness for your project / 为你的项目初始化 Harness
+harness setup --lang python    # or: go, javascript, typescript, rust
+                               # 或者: go, javascript, typescript, rust
+
+# 5. Verify the setup / 验证安装
+harness --version
+# Should show: claude-code-harness v1.x.x (guardrail engine: go1.21+)
+# 应显示: claude-code-harness v1.x.x (guardrail engine: go1.21+)
+```
+
+### Verification / 验证
+
+```bash
+# Check all components / 检查所有组件
+node --version          # Should be v18.x or higher / 应为 v18.x 或更高
+go version              # Should be 1.21+ / 应为 1.21+
+claude --version        # Should show Claude Code CLI version / 应显示 Claude Code CLI 版本
+harness --version       # Should show Harness version with guardrail engine / 应显示 Harness 版本及护栏引擎
+
+# Test guardrail engine / 测试护栏引擎
+harness setup --check
+# Should show: "Guardrail engine: OK (sub-10ms response)"
+# 应显示: "Guardrail engine: OK (sub-10ms response)"
+```
+
+---
+
+## Real-World Walkthrough / 真实操作演示
+
+Below is a complete session showing the Plan, Work, Review cycle with real guardrail enforcement.
+
+以下是一个完整的会话演示，展示计划、开发、审查循环以及真实的护栏执行。
+
+### Step 1: /harness setup — Configure Project / 步骤1：配置项目
+
+```
+$ cd my-web-app
+$ harness setup --lang python --guardrails strict
+
+Harness [setup] Scanning project structure...
+  - Language: Python
+  - Framework detected: FastAPI
+  - Test runner detected: pytest
+  - Guardrail level: strict
+
+Harness [setup] Writing configuration to .harness/config.yaml
+  Guardrails enabled:
+    ✓ No hardcoded secrets (API keys, passwords, tokens)
+    ✓ No direct database migration modifications
+    ✓ No imports from banned packages
+    ✓ All functions must have type hints
+    ✓ No files > 500 lines
+    ✓ Test files required for new modules
+
+Harness [setup] Go guardrail engine compiled and ready.
+  Response time: 3ms average per check.
+
+Setup complete. Run `harness plan "<requirement>"` to start.
+```
+
+### Step 2: /harness plan — Create Implementation Plan / 步骤2：创建实现计划
+
+```
+$ harness plan "add user authentication with JWT, including login,
+  signup, password reset, and role-based access control"
+
+Harness [plan] Analyzing requirement...
+  - Complexity: MEDIUM (6-10 tasks)
+  - Affected areas: API routes, models, middleware, tests
+
+Harness [plan] Implementation plan created:
+
+  Task 1: Create User model with password hashing
+  Task 2: Implement JWT token generation and validation utilities
+  Task 3: Build POST /auth/signup endpoint
+  Task 4: Build POST /auth/login endpoint
+  Task 5: Build POST /auth/password-reset endpoint
+  Task 6: Implement role-based access control middleware
+  Task 7: Add protected route decorators
+  Task 8: Write comprehensive test suite
+
+  Plan saved to: .harness/plans/auth-20260520.yaml
+
+Review the plan above. Approve? (y/n): y
+
+Plan approved. Run `harness work` to begin implementation.
+```
+
+### Step 3: /harness work — Parallel Workers Implement Tasks / 步骤3：并行工人实现任务
+
+```
+$ harness work
+
+Harness [work] Spawning 3 parallel worker agents...
+
+  Worker 1: Tasks 1-3 (User model, JWT utils, signup)
+  Worker 2: Tasks 4-6 (login, password reset, RBAC middleware)
+  Worker 3: Tasks 7-8 (route decorators, tests)
+
+  Worker 1: ████████████████████ Task 1 COMPLETE — models/user.py created
+  Worker 1: ████████████████████ Task 2 COMPLETE — utils/jwt.py created
+  Worker 2: ████████████████████ Task 4 COMPLETE — routes/auth.py (login)
+  Worker 1: ████████████████████ Task 3 COMPLETE — routes/auth.py (signup)
+  Worker 2: ████████████████████ Task 5 COMPLETE — routes/auth.py (reset)
+```
+
+### Step 4: Guardrail Blocks a Bad Change / 步骤4：护栏阻止了一个错误变更
+
+```
+  Worker 2: Implementing Task 6 (RBAC middleware)...
+
+  Harness [guardrail] ✗ BLOCKED — Worker 2, file: middleware/auth.py
+    Rule violated: NO_HARDCODED_SECRETS
+    Line 14: JWT_SECRET = "my-super-secret-key-12345"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    Hardcoded secret detected. Use environment variable instead.
+
+    Suggestion: Replace with `os.environ.get("JWT_SECRET")`
+    Response time: 2ms
+
+  Worker 2: [auto-correcting] Replacing hardcoded secret...
+    - JWT_SECRET = "my-super-secret-key-12345"
+    + JWT_SECRET = os.environ.get("JWT_SECRET")
+    + if not JWT_SECRET:
+    +     raise RuntimeError("JWT_SECRET environment variable not set")
+
+  Harness [guardrail] ✓ PASSED — middleware/auth.py (re-check: 3ms)
+
+  Worker 2: ████████████████████ Task 6 COMPLETE — middleware/auth.py
+  Worker 3: ████████████████████ Task 7 COMPLETE — decorators/auth.py
+  Worker 3: ████████████████████ Task 8 COMPLETE — tests/test_auth.py
+
+Harness [work] All 8 tasks completed.
+  Files created: 7
+  Files modified: 2
+  Guardrail checks: 34 total, 1 blocked and auto-corrected
+```
+
+### Step 5: /harness review — Reviewer Agent Checks Work / 步骤5：审查代理检查工作
+
+```
+$ harness review
+
+Harness [review] Reviewer agent analyzing implementation against plan...
+
+  Checking Task 1 (User model): ✓ Matches plan
+    - Password hashing with bcrypt: present
+    - Email validation: present
+    - Role field with enum: present
+
+  Checking Task 2 (JWT utils): ✓ Matches plan
+  Checking Task 3 (Signup): ✓ Matches plan
+  Checking Task 4 (Login): ✓ Matches plan
+  Checking Task 5 (Password reset): ✓ Matches plan
+  Checking Task 6 (RBAC middleware): ✓ Matches plan
+    Note: guardrail caught a hardcoded secret — auto-corrected
+  Checking Task 7 (Route decorators): ✓ Matches plan
+  Checking Task 8 (Tests): ✓ Matches plan
+
+  Running test suite: pytest tests/test_auth.py
+    ✓ 24 tests passed, 0 failed
+
+Harness [review] APPROVED — All 8 tasks match plan, all tests pass.
+```
+
+### Step 6: /harness release — Ship the PR / 步骤6：发布 PR
+
+```
+$ harness release --pr --tag v1.3.0
+
+Harness [release] Preparing release...
+  ✓ All guardrail checks passing
+  ✓ All tests passing (24/24)
+  ✓ Review: APPROVED
+
+  Creating branch: feature/auth-system
+  Committing 9 files with message:
+    "feat: add JWT authentication with RBAC
+
+     - User model with bcrypt password hashing
+     - JWT token generation/validation
+     - Login, signup, password reset endpoints
+     - Role-based access control middleware
+     - 24 tests with full coverage"
+
+  Creating pull request...
+  ✓ PR #47 created: "Add JWT authentication with RBAC"
+    https://github.com/your-org/my-web-app/pull/47
+
+  Tagging: v1.3.0
+  ✓ Tag created
+
+Harness [release] Done. PR #47 is ready for human review.
+```
+
+---
+
+## Troubleshooting / 常见问题
+
+| Problem / 问题 | Cause / 原因 | Solution / 解决方案 |
+|---|---|---|
+| `make install` fails | Go not installed or not in PATH | Install Go 1.21+: check with `go version` / 安装 Go 1.21+：用 `go version` 检查 |
+| `harness setup` not found | Harness binary not in PATH | Add to PATH: `export PATH=$PATH:$(go env GOPATH)/bin` / 添加到 PATH |
+| Guardrail engine not responding | Go binary not compiled | Run `make install` again in the harness repo / 在 harness 仓库中重新运行 `make install` |
+| `harness plan` produces empty plan | Requirement too vague | Provide more detail: include specific endpoints, models, or behaviors / 提供更多细节 |
+| Worker agent hangs | Claude Code CLI session expired | Re-authenticate with `claude login` / 用 `claude login` 重新认证 |
+| Guardrail false positive | Rule too strict for your project | Edit `.harness/config.yaml` to adjust rules / 编辑 `.harness/config.yaml` 调整规则 |
+| `harness review` fails | Tests not configured | Ensure test runner is set in `.harness/config.yaml` / 确保在配置中设置了测试运行器 |
+| `harness release --pr` fails | No GitHub remote configured | Run `git remote add origin <url>` first / 先运行 `git remote add origin <url>` |
+| Permission denied on Linux | Binary lacks execute permission | Run `chmod +x $(which harness)` / 运行 `chmod +x $(which harness)` |
+
+---
+
 *Harness does not replace Claude Code — it makes Claude Code safer and more structured.*
 
 *Harness 不是替代 Claude Code -- 它让 Claude Code 更安全、更有结构。*
