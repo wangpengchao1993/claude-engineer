@@ -22,6 +22,17 @@
 - **Copy-paste ready** — Templates for `CLAUDE.md`, hooks, system prompts, and MCP configs you can use immediately.
 - **Real-world examples** — Runnable code samples for agents, tool use, streaming, and automation workflows.
 
+### Quick Start Map / 快速导航
+
+| I want to... / 我想... | Go here / 去这里 |
+|------------------------|-----------------|
+| Get started from zero / 从零开始 | [guide/en/01](guide/en/01-getting-started.md) · [中文](guide/zh/01-getting-started.md) |
+| Build a complete project with AI / 用 AI 做一个完整项目 | [guide/en/11](guide/en/11-end-to-end-project.md) · [中文](guide/zh/11-end-to-end-project.md) |
+| Pick a workflow framework / 选一个工作流框架 | [frameworks/](examples/frameworks/) |
+| Copy a CLAUDE.md template / 抄一个模板 | [templates/](templates/) — Python · C++ · Java · TS · Rust · Fullstack |
+| Set up CI/CD with AI / 搭 AI 流水线 | [cicd-templates/](examples/cicd-templates/) |
+| Save money on tokens / 省 Token 钱 | [guide/en/13](guide/en/13-cost-and-model-selection.md) · [中文](guide/zh/13-cost-and-model-selection.md) |
+
 ---
 
 ## Learning Roadmap

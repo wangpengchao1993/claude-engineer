@@ -22,6 +22,17 @@
 - **即拿即用** — 提供 `CLAUDE.md`、Hooks、系统 Prompt、MCP 配置等模板，复制即可使用。
 - **真实案例** — 可运行的代码示例，覆盖 Agent、Tool Use、流式处理和自动化工作流。
 
+### 快速导航
+
+| 我想... | 去这里 |
+|---------|-------|
+| 从零开始学 | [指南 01](guide/zh/01-getting-started.md) |
+| 用 AI 做一个完整项目 | [指南 11 — 端到端实战](guide/zh/11-end-to-end-project.md) |
+| 选一个工作流框架 | [框架对比](examples/frameworks/) |
+| 抄一个 CLAUDE.md 模板 | [模板目录](templates/) — Python · C++ · Java · TS · Rust · 全栈 |
+| 搭 AI CI/CD 流水线 | [CI/CD 模板](examples/cicd-templates/) |
+| 省 Token 钱 | [指南 13 — 成本与模型选择](guide/zh/13-cost-and-model-selection.md) |
+
 ---
 
 ## 学习路线图
