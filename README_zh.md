@@ -142,6 +142,8 @@
 | [CLAUDE-python.md](templates/CLAUDE-python.md) | Python 项目模板 |
 | [CLAUDE-typescript.md](templates/CLAUDE-typescript.md) | TypeScript/Node.js 项目模板 |
 | [CLAUDE-rust.md](templates/CLAUDE-rust.md) | Rust 项目模板 |
+| [CLAUDE-cpp.md](templates/CLAUDE-cpp.md) | C++ 项目模板（CMake, GTest, clang-tidy）🆕 |
+| [CLAUDE-java.md](templates/CLAUDE-java.md) | Java 项目模板（Spring Boot, Maven, JUnit 5）🆕 |
 | [CLAUDE-fullstack.md](templates/CLAUDE-fullstack.md) | 全栈项目模板（前端+后端+数据库）🆕 |
 | [系统 Prompt](templates/system-prompts/) | 代码审查、写作、分析等场景的 Prompt |
 | [Hook 脚本](templates/hooks/) | 预提交检查、自动测试等 |

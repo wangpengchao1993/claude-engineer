@@ -142,6 +142,8 @@ Ready-to-use templates — copy them directly into your projects:
 | [CLAUDE-python.md](templates/CLAUDE-python.md) | Python project template |
 | [CLAUDE-typescript.md](templates/CLAUDE-typescript.md) | TypeScript/Node.js project template |
 | [CLAUDE-rust.md](templates/CLAUDE-rust.md) | Rust project template |
+| [CLAUDE-cpp.md](templates/CLAUDE-cpp.md) | C++ project template (CMake, GTest, clang-tidy) 🆕 |
+| [CLAUDE-java.md](templates/CLAUDE-java.md) | Java project template (Spring Boot, Maven, JUnit 5) 🆕 |
 | [CLAUDE-fullstack.md](templates/CLAUDE-fullstack.md) | Full-stack project template (frontend + backend + DB) 🆕 |
 | [System Prompts](templates/system-prompts/) | Prompts for code review, writing, analysis, etc. |
 | [Hook Scripts](templates/hooks/) | Pre-commit linting, auto-testing, and more |
