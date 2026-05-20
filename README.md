@@ -155,6 +155,21 @@ Runnable code samples organized by category:
 - [Multi-Agent](examples/agents/multi-agent/) — Agent orchestration patterns
 - [Code Review Bot](examples/agents/code-review-bot/) — Practical automated code reviewer
 
+### AI Coding Workflow Frameworks / AI 编码工作流框架 🆕
+
+> Harness frameworks that turn AI coding into structured engineering workflows: requirements → design → implement → review → ship.
+>
+> 将 AI 编码变成结构化工程流程的 Harness 框架：需求→设计→实现→审查→交付。
+
+| Category / 分类 | Frameworks / 框架 |
+|-----------------|-------------------|
+| Methodology / 方法论 | [Superpowers](examples/frameworks/superpowers/) · [GSD](examples/frameworks/gsd/) · [Spec-Kit](examples/frameworks/spec-kit/) · [BMAD](examples/frameworks/bmad-method/) |
+| Virtual Team / 虚拟团队 | [GStack](examples/frameworks/gstack/) · [ECC](examples/frameworks/ecc/) |
+| Orchestration / 编排进化 | [Hermes Agent](examples/frameworks/hermes-agent/) · [Citadel](examples/frameworks/citadel/) |
+| Full Lifecycle / 全生命周期 | [CC Harness](examples/frameworks/claude-code-harness/) · [CC Workflows](examples/frameworks/claude-code-workflows/) |
+
+👉 **[Full Guide with Comparisons / 完整指南与对比 →](examples/frameworks/)**
+
 ---
 
 ## Awesome Resources

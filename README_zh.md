@@ -155,6 +155,19 @@
 - [多 Agent](examples/agents/multi-agent/) — Agent 编排模式
 - [代码审查 Bot](examples/agents/code-review-bot/) — 实用的自动化代码审查工具
 
+### AI 编码工作流框架 🆕
+
+> 将 AI 编码变成结构化工程流程的 Harness 框架：需求→设计→实现→审查→交付。
+
+| 分类 | 框架 |
+|------|------|
+| 方法论 | [Superpowers](examples/frameworks/superpowers/) · [GSD](examples/frameworks/gsd/) · [Spec-Kit](examples/frameworks/spec-kit/) · [BMAD](examples/frameworks/bmad-method/) |
+| 虚拟团队 | [GStack](examples/frameworks/gstack/) · [ECC](examples/frameworks/ecc/) |
+| 编排进化 | [Hermes Agent](examples/frameworks/hermes-agent/) · [Citadel](examples/frameworks/citadel/) |
+| 全生命周期 | [CC Harness](examples/frameworks/claude-code-harness/) · [CC Workflows](examples/frameworks/claude-code-workflows/) |
+
+👉 **[完整指南与对比 →](examples/frameworks/)**
+
 ---
 
 ## 资源列表
