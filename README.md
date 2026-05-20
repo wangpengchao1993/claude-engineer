@@ -155,23 +155,6 @@ Runnable code samples organized by category:
 - [Multi-Agent](examples/agents/multi-agent/) — Agent orchestration patterns
 - [Code Review Bot](examples/agents/code-review-bot/) — Practical automated code reviewer
 
-### AI Frameworks Guide / AI 框架指南 🆕
-
-> Beginner-friendly introductions to 10 popular AI frameworks, each with runnable examples and tests.
->
-> 面向小白的 10 大主流 AI 框架介绍，每个都有可运行示例和测试。
-
-| Category / 分类 | Frameworks / 框架 |
-|-----------------|-------------------|
-| LLM Apps / 大模型应用 | [LangChain](examples/frameworks/langchain/) · [LlamaIndex](examples/frameworks/llamaindex/) |
-| Agents / 智能体 | [CrewAI](examples/frameworks/crewai/) · [LangGraph](examples/frameworks/langgraph/) · [OpenAI Agents](examples/frameworks/openai-agents/) |
-| Prompt Optimization / 提示词优化 | [DSPy](examples/frameworks/dspy/) |
-| Model Serving / 模型部署 | [Ollama](examples/frameworks/ollama/) · [LiteLLM](examples/frameworks/litellm/) |
-| Evaluation / 评估测试 | [DeepEval](examples/frameworks/deepeval/) |
-| Models & Fine-tuning / 模型微调 | [Hugging Face](examples/frameworks/huggingface/) |
-
-👉 **[Full Guide / 完整指南 →](examples/frameworks/)**
-
 ---
 
 ## Awesome Resources

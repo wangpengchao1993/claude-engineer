@@ -155,21 +155,6 @@
 - [多 Agent](examples/agents/multi-agent/) — Agent 编排模式
 - [代码审查 Bot](examples/agents/code-review-bot/) — 实用的自动化代码审查工具
 
-### AI 框架指南 🆕
-
-> 面向小白的 10 大主流 AI 框架介绍，每个都有可运行示例和测试。
-
-| 分类 | 框架 |
-|------|------|
-| 大模型应用 | [LangChain](examples/frameworks/langchain/) · [LlamaIndex](examples/frameworks/llamaindex/) |
-| 智能体 | [CrewAI](examples/frameworks/crewai/) · [LangGraph](examples/frameworks/langgraph/) · [OpenAI Agents](examples/frameworks/openai-agents/) |
-| 提示词优化 | [DSPy](examples/frameworks/dspy/) |
-| 模型部署 | [Ollama](examples/frameworks/ollama/) · [LiteLLM](examples/frameworks/litellm/) |
-| 评估测试 | [DeepEval](examples/frameworks/deepeval/) |
-| 模型微调 | [Hugging Face](examples/frameworks/huggingface/) |
-
-👉 **[完整指南 →](examples/frameworks/)**
-
 ---
 
 ## 资源列表
