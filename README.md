@@ -51,11 +51,14 @@
 
 | Section | Description |
 |---------|-------------|
+| [Knowledge Map / 知识总览](overview.md) | One-page overview of the entire knowledge system |
 | [Roadmap](roadmap.md) | Step-by-step learning path from beginner to expert |
-| [Cheatsheet](cheatsheet.md) | Quick reference for commands, shortcuts, and tips |
-| [Guide](guide/en/) | In-depth tutorials from beginner to advanced |
+| [Cheatsheet](cheatsheet.md) · [中文版](cheatsheet_zh.md) | Quick reference for commands, shortcuts, and tips |
+| [Tool Comparison / 工具对比](comparison.md) | Claude Code vs Cursor vs Copilot vs Windsurf |
+| [Guide](guide/en/) · [中文](guide/zh/) | In-depth tutorials from beginner to advanced |
 | [Templates](templates/) | Ready-to-use CLAUDE.md, hooks, and prompt templates |
 | [Examples](examples/) | Runnable code samples |
+| [Presentation / 演讲讲义](demo-script.md) | Complete 30-min talk: mindset, tools, and team adoption |
 | [Awesome Resources](awesome.md) | Curated tools, MCP servers, articles, and more |
 
 ---

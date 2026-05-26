@@ -51,11 +51,14 @@
 
 | 板块 | 说明 |
 |------|------|
+| [知识体系总览](overview.md) | 一页纸看懂整个 repo 的知识结构 |
 | [学习路线图](roadmap.md) | 从入门到专家的分阶段学习路径 |
-| [速查表](cheatsheet.md) | 命令、快捷键和技巧速查 |
+| [中文速查表](cheatsheet_zh.md) · [English](cheatsheet.md) | 命令、快捷键和技巧速查 |
+| [AI 工具对比](comparison.md) | Claude Code vs Cursor vs Copilot vs Windsurf |
 | [教程指南](guide/zh/) | 从入门到高级的深度教程 |
 | [模板](templates/) | 即用型 CLAUDE.md、Hook 和 Prompt 模板 |
 | [代码示例](examples/) | 可运行的代码示例 |
+| [演讲讲义](demo-script.md) | 30 分钟完整演讲：认知升级 + 工具实战 + 团队落地 |
 | [资源列表](awesome.md) | 精选工具、MCP Server、文章等资源 |
 
 ---
