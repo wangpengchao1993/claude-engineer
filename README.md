@@ -24,8 +24,7 @@
 
 | I want to... | Go here |
 |--------------|---------|
-| See the big picture | [Knowledge Map](overview.md) — one-page overview of the entire repo |
-| Learn from zero | [Roadmap](roadmap.md) — 6 stages, from beginner to team adoption |
+| See the big picture + learning path | [Knowledge Map & Roadmap](roadmap.md) — one-page overview + 6 stages from beginner to team adoption |
 | Look up a command / shortcut | [Cheatsheet](cheatsheet.md) · [中文速查表](cheatsheet_zh.md) |
 | Compare with other AI tools | [Tool Comparison](comparison.md) — Claude Code vs Cursor vs Copilot vs Windsurf |
 | Copy a project template | [Templates](templates/) — Python · C++ · Java · TS · Rust · Fullstack |

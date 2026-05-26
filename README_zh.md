@@ -24,8 +24,7 @@
 
 | 我想... | 去这里 |
 |---------|-------|
-| 先看全貌 | [知识体系总览](overview.md) — 一张图看懂整个 repo |
-| 从零开始学 | [学习路线图](roadmap.md) — 6 个阶段，从入门到团队落地 |
+| 先看全貌 + 学习路线 | [知识地图与路线图](roadmap.md) — 一张图看懂全貌，6 个阶段从入门到落地 |
 | 查命令 / 快捷键 | [中文速查表](cheatsheet_zh.md) |
 | 对比其他 AI 工具 | [AI 工具对比](comparison.md) — Claude Code vs Cursor vs Copilot vs Windsurf |
 | 抄一个项目模板 | [模板目录](templates/) — Python · C++ · Java · TS · Rust · 全栈 |
