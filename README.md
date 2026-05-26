@@ -18,127 +18,90 @@
 - **Copy-paste ready** — Templates for `CLAUDE.md`, hooks, system prompts, and MCP configs you can use immediately.
 - **Real-world examples** — Runnable code samples for agents, tool use, streaming, and automation workflows.
 
-### Quick Start Map / 快速导航
+---
 
-| I want to... / 我想... | Go here / 去这里 |
-|------------------------|-----------------|
-| Get started from zero / 从零开始 | [guide/en/01](guide/en/01-getting-started.md) · [中文](guide/zh/01-getting-started.md) |
-| Build a complete project with AI / 用 AI 做一个完整项目 | [guide/en/11](guide/en/11-end-to-end-project.md) · [中文](guide/zh/11-end-to-end-project.md) |
-| Pick a workflow framework / 选一个工作流框架 | [frameworks/](examples/frameworks/) |
-| Copy a CLAUDE.md template / 抄一个模板 | [templates/](templates/) — Python · C++ · Java · TS · Rust · Fullstack |
-| Set up CI/CD with AI / 搭 AI 流水线 | [cicd-templates/](examples/cicd-templates/) |
-| Save money on tokens / 省 Token 钱 | [guide/en/13](guide/en/13-cost-and-model-selection.md) · [中文](guide/zh/13-cost-and-model-selection.md) |
+## Where to Start?
+
+| I want to... | Go here |
+|--------------|---------|
+| See the big picture | [Knowledge Map](overview.md) |
+| Follow a learning path from zero | [Roadmap](roadmap.md) → [Chapter 01: Getting Started](guide/en/01-getting-started.md) |
+| Look up a command / shortcut / API param | [Cheatsheet](cheatsheet.md) · [中文速查表](cheatsheet_zh.md) |
+| Compare Claude Code with other tools | [Tool Comparison](comparison.md) |
+| Copy a project template | [Templates](templates/) — Python · C++ · Java · TS · Rust · Fullstack |
+| Build a complete project with AI | [Chapter 11: End-to-End Project](guide/en/11-end-to-end-project.md) |
+| Set up AI CI/CD pipelines | [Chapter 12: CI/CD Integration](guide/en/12-cicd-integration.md) |
+| Save money on tokens | [Chapter 13: Cost & Model Selection](guide/en/13-cost-and-model-selection.md) |
+| Find tools, libraries, and articles | [Awesome Resources](awesome.md) |
 
 ---
 
 ## Learning Roadmap
 
-> Follow the path from beginner to expert. Full roadmap: [roadmap.md](roadmap.md)
+> Full roadmap: [roadmap.md](roadmap.md)
 
 ```
-🟢 Stage 1: Getting Started     🔵 Stage 2: Daily Driver
-   Install → First Chat →          Interactive → Plan Mode →
-   CLAUDE.md                       Git & Pipes → /compact
+Stage 1: Getting Started        Stage 2: Daily Driver
+  Install → First Chat →          Interactive → Plan Mode →
+  CLAUDE.md                        Git & Pipes → /compact
 
-🟡 Stage 3: Power User          🔴 Stage 4: Expert
-   Hooks → MCP Servers →           Claude API → Agent SDK →
-   Prompt Engineering               Multi-Agent → CI/CD
-```
-
----
-
-## Quick Navigation
-
-| Section | Description |
-|---------|-------------|
-| [Knowledge Map / 知识总览](overview.md) | One-page overview of the entire knowledge system |
-| [Roadmap](roadmap.md) | Step-by-step learning path from beginner to expert |
-| [Cheatsheet](cheatsheet.md) · [中文版](cheatsheet_zh.md) | Quick reference for commands, shortcuts, and tips |
-| [Tool Comparison / 工具对比](comparison.md) | Claude Code vs Cursor vs Copilot vs Windsurf |
-| [Guide](guide/en/) · [中文](guide/zh/) | In-depth tutorials from beginner to advanced |
-| [Templates](templates/) | Ready-to-use CLAUDE.md, hooks, and prompt templates |
-| [Examples](examples/) | Runnable code samples |
-| [Presentation / 演讲讲义](demo-script.md) | Complete 30-min talk: mindset, tools, and team adoption |
-| [Awesome Resources](awesome.md) | Curated tools, MCP servers, articles, and more |
-
----
-
-## Cheatsheet Highlights
-
-> Full cheatsheet: [cheatsheet.md](cheatsheet.md)
-
-### Claude Code Essential Commands
-
-| Command | Description |
-|---------|-------------|
-| `claude` | Start interactive REPL |
-| `claude "query"` | One-shot query, no interactive session |
-| `cat file \| claude "explain"` | Pipe content for analysis |
-| `claude -c` | Resume most recent conversation |
-| `claude --model` | Specify which model to use |
-| `/init` | Generate a CLAUDE.md file for your project |
-| `/compact` | Compress conversation context |
-| `/mcp` | Manage MCP servers |
-| `/cost` | Show token usage and cost |
-| Shift+Tab | Toggle Plan mode (think before acting) |
-| Esc (2x) | Interrupt Claude while generating |
-
-### CLAUDE.md Quick Tips
-
-```markdown
-# CLAUDE.md — Put this at your project root
-
-## Project Overview
-Brief description of what this project does.
-
-## Tech Stack
-- Language: TypeScript
-- Framework: Next.js 14
-- Database: PostgreSQL with Prisma
-
-## Commands
-- `npm run dev` — Start development server
-- `npm test` — Run tests
-- `npm run lint` — Run linter
-
-## Code Conventions
-- Use functional components with hooks
-- Prefer named exports
-- Error messages should be user-friendly
+Stage 3: Power User             Stage 4: Expert
+  Hooks → MCP Servers →           Claude API → Agent SDK →
+  Prompt Engineering               Multi-Agent → CI/CD
 ```
 
 ---
 
-## Guide — Table of Contents
+## Guide — Table of Contents (17 Chapters)
 
-### Getting Started
-- [01 - Getting Started with Claude](guide/en/01-getting-started.md) — Installation, setup, and your first conversation
+Chapters are ordered from beginner to advanced. Recommended to read in order.
 
-### Claude Code Mastery
-- [02 - Claude Code Mastery](guide/en/02-claude-code-mastery.md) — Deep dive into Claude Code CLI features and workflows
-- [03 - CLAUDE.md Guide](guide/en/03-claude-md-guide.md) — Best practices for project-level configuration
-- [04 - Hooks & Automation](guide/en/04-hooks-and-automation.md) — Automate workflows with hooks and shell integration
-- [05 - MCP Servers](guide/en/05-mcp-servers.md) — Extend Claude's capabilities with Model Context Protocol
-- [06 - Multi-Agent Patterns](guide/en/06-multi-agent.md) — Orchestrate multiple Claude agents for complex tasks
+### Stage 1: Getting Started
 
-### API & SDK
-- [07 - API & SDK](guide/en/07-api-and-sdk.md) — Build applications with Claude API and Anthropic SDK
-- [08 - Agent SDK](guide/en/08-agent-sdk.md) — Build custom agents with Claude Agent SDK
+| Ch | Topic | What You'll Learn |
+|----|-------|-------------------|
+| [01](guide/en/01-getting-started.md) | Getting Started | Installation, setup, first conversation |
 
-### Prompt Engineering
-- [09 - Prompt Engineering](guide/en/09-prompt-engineering.md) — Techniques for getting the best results from Claude
-- [10 - Advanced Workflows](guide/en/10-advanced-workflows.md) — Complex real-world automation patterns
+### Stage 2: Claude Code Mastery
 
-### Production & Operations 🆕
-- [11 - End-to-End Project](guide/en/11-end-to-end-project.md) — Build a complete app from idea to deployment with AI
-- [12 - CI/CD Integration](guide/en/12-cicd-integration.md) — AI-powered code review, testing, and deployment pipelines
-- [13 - Cost & Model Selection](guide/en/13-cost-and-model-selection.md) — Opus vs Sonnet vs Haiku, token budgeting, cost saving
-- [14 - Debugging AI Code](guide/en/14-debugging-ai-code.md) — When AI gets it wrong: detection, recovery, prevention
+| Ch | Topic | What You'll Learn |
+|----|-------|-------------------|
+| [02](guide/en/02-claude-code-mastery.md) | CLI Mastery | Interactive/non-interactive modes, pipes, Plan mode |
+| [03](guide/en/03-claude-md-guide.md) | CLAUDE.md Guide | Project config, context engineering, multi-level rules |
+| [04](guide/en/04-hooks-and-automation.md) | Hooks & Automation | Event hooks, auto-lint, quality guardrails |
+| [05](guide/en/05-mcp-servers.md) | MCP Servers | Extend Claude's tool capabilities |
+| [06](guide/en/06-multi-agent.md) | Multi-Agent Patterns | Subagents, parallel execution, orchestration |
 
-### Team & Enterprise 🆕
-- [15 - Team Workflows](guide/en/15-team-workflows.md) — Multi-person + AI collaboration, PR processes, onboarding
-- [16 - Security & Compliance](guide/en/16-security-compliance.md) — Secrets management, OWASP, audit logging, compliance
-- [17 - Large Codebase Management](guide/en/17-large-codebase.md) — 100K+ LOC projects, context strategies, monorepo patterns
+### Stage 3: API & SDK
+
+| Ch | Topic | What You'll Learn |
+|----|-------|-------------------|
+| [07](guide/en/07-api-and-sdk.md) | API & SDK | Call Claude from code (Python/TypeScript) |
+| [08](guide/en/08-agent-sdk.md) | Agent SDK | Build custom agents |
+
+### Stage 4: Prompt Engineering & Advanced
+
+| Ch | Topic | What You'll Learn |
+|----|-------|-------------------|
+| [09](guide/en/09-prompt-engineering.md) | Prompt Engineering | Structured prompts, Claude-specific techniques |
+| [10](guide/en/10-advanced-workflows.md) | Advanced Workflows | Automated review, test gen, release management |
+
+### Stage 5: Production & Operations
+
+| Ch | Topic | What You'll Learn |
+|----|-------|-------------------|
+| [11](guide/en/11-end-to-end-project.md) | End-to-End Project | Full AI dev flow from idea to deployment |
+| [12](guide/en/12-cicd-integration.md) | CI/CD Integration | AI-powered code review and deployment pipelines |
+| [13](guide/en/13-cost-and-model-selection.md) | Cost & Model Selection | Opus/Sonnet/Haiku comparison, cost saving |
+| [14](guide/en/14-debugging-ai-code.md) | Debugging AI Code | Common AI errors, prevention and recovery |
+
+### Stage 6: Team & Enterprise
+
+| Ch | Topic | What You'll Learn |
+|----|-------|-------------------|
+| [15](guide/en/15-team-workflows.md) | Team Workflows | Multi-person + AI collaboration, PR processes |
+| [16](guide/en/16-security-compliance.md) | Security & Compliance | Secrets, OWASP, audit logging, compliance |
+| [17](guide/en/17-large-codebase.md) | Large Codebase | 100K+ LOC context strategies, monorepo patterns |
 
 ---
 
@@ -152,12 +115,12 @@ Ready-to-use templates — copy them directly into your projects:
 | [CLAUDE-python.md](templates/CLAUDE-python.md) | Python project template |
 | [CLAUDE-typescript.md](templates/CLAUDE-typescript.md) | TypeScript/Node.js project template |
 | [CLAUDE-rust.md](templates/CLAUDE-rust.md) | Rust project template |
-| [CLAUDE-cpp.md](templates/CLAUDE-cpp.md) | C++ project template (CMake, GTest, clang-tidy) 🆕 |
-| [CLAUDE-java.md](templates/CLAUDE-java.md) | Java project template (Spring Boot, Maven, JUnit 5) 🆕 |
-| [CLAUDE-fullstack.md](templates/CLAUDE-fullstack.md) | Full-stack project template (frontend + backend + DB) 🆕 |
+| [CLAUDE-cpp.md](templates/CLAUDE-cpp.md) | C++ project template (CMake, GTest, clang-tidy) |
+| [CLAUDE-java.md](templates/CLAUDE-java.md) | Java project template (Spring Boot, Maven, JUnit 5) |
+| [CLAUDE-fullstack.md](templates/CLAUDE-fullstack.md) | Full-stack project template (frontend + backend + DB) |
 | [System Prompts](templates/system-prompts/) | Prompts for code review, writing, analysis, etc. |
 | [Hook Scripts](templates/hooks/) | Pre-commit linting, auto-testing, and more |
-| [Security Templates](templates/security/) | Security hooks, OWASP checklist for AI code 🆕 |
+| [Security Templates](templates/security/) | Security hooks, OWASP checklist for AI code |
 
 ---
 
@@ -165,15 +128,15 @@ Ready-to-use templates — copy them directly into your projects:
 
 Runnable code samples organized by category:
 
-### Full-Stack Demo 🆕
+### Full-Stack Demo
 - [Task Manager Demo](examples/fullstack-demo/) — Complete project with CLAUDE.md + hooks + CI/CD + Docker
 
-### CI/CD Templates 🆕
+### CI/CD Templates
 - [AI Code Review](examples/cicd-templates/github-actions/ai-code-review.yml) — GitHub Actions: AI reviews every PR
 - [AI Test Generation](examples/cicd-templates/github-actions/ai-test-gen.yml) — Auto-generate tests for changed files
 - [GitLab CI](examples/cicd-templates/gitlab-ci/) — GitLab equivalent pipelines
 
-### Claude Code
+### Claude Code Config
 - [Hook configurations](examples/claude-code/hooks/) — Custom hooks for automation
 - [MCP server configs](examples/claude-code/mcp-configs/) — Ready-to-use MCP setups
 - [CLAUDE.md examples](examples/claude-code/claude-md/) — Real project configurations
@@ -186,20 +149,18 @@ Runnable code samples organized by category:
 - [Simple Agent](examples/agents/simple-agent/) — Basic agent with tools
 - [Code Review Bot](examples/agents/code-review-bot/) — Practical automated code reviewer
 
-### AI Coding Workflow Frameworks / AI 编码工作流框架 🆕
+### Workflow Frameworks
 
-> Harness frameworks that turn AI coding into structured engineering workflows: requirements → design → implement → review → ship.
->
-> 将 AI 编码变成结构化工程流程的 Harness 框架：需求→设计→实现→审查→交付。
+> Frameworks that turn AI coding into structured engineering workflows: requirements → design → implement → review → ship.
 
-| Category / 分类 | Frameworks / 框架 |
-|-----------------|-------------------|
-| Methodology / 方法论 | [Superpowers](examples/frameworks/superpowers/) · [GSD](examples/frameworks/gsd/) · [Spec-Kit](examples/frameworks/spec-kit/) · [BMAD](examples/frameworks/bmad-method/) |
-| Virtual Team / 虚拟团队 | [GStack](examples/frameworks/gstack/) · [ECC](examples/frameworks/ecc/) |
-| Orchestration / 编排进化 | [Hermes Agent](examples/frameworks/hermes-agent/) · [Citadel](examples/frameworks/citadel/) |
-| Full Lifecycle / 全生命周期 | [CC Harness](examples/frameworks/claude-code-harness/) · [CC Workflows](examples/frameworks/claude-code-workflows/) |
+| Category | Frameworks |
+|----------|-----------|
+| Methodology | [Superpowers](examples/frameworks/superpowers/) · [GSD](examples/frameworks/gsd/) · [Spec-Kit](examples/frameworks/spec-kit/) · [BMAD](examples/frameworks/bmad-method/) |
+| Virtual Team | [GStack](examples/frameworks/gstack/) · [ECC](examples/frameworks/ecc/) |
+| Orchestration | [Hermes Agent](examples/frameworks/hermes-agent/) · [Citadel](examples/frameworks/citadel/) |
+| Full Lifecycle | [CC Harness](examples/frameworks/claude-code-harness/) · [CC Workflows](examples/frameworks/claude-code-workflows/) |
 
-👉 **[Full Guide with Comparisons / 完整指南与对比 →](examples/frameworks/)**
+👉 **[Full Guide with Comparisons →](examples/frameworks/)**
 
 ---
 

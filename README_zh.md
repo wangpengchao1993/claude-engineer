@@ -18,133 +18,96 @@
 - **即拿即用** — 提供 `CLAUDE.md`、Hooks、系统 Prompt、MCP 配置等模板，复制即可使用。
 - **真实案例** — 可运行的代码示例，覆盖 Agent、Tool Use、流式处理和自动化工作流。
 
-### 快速导航
+---
+
+## 从哪里开始？
 
 | 我想... | 去这里 |
 |---------|-------|
-| 从零开始学 | [指南 01](guide/zh/01-getting-started.md) |
-| 用 AI 做一个完整项目 | [指南 11 — 端到端实战](guide/zh/11-end-to-end-project.md) |
-| 选一个工作流框架 | [框架对比](examples/frameworks/) |
-| 抄一个 CLAUDE.md 模板 | [模板目录](templates/) — Python · C++ · Java · TS · Rust · 全栈 |
-| 搭 AI CI/CD 流水线 | [CI/CD 模板](examples/cicd-templates/) |
-| 省 Token 钱 | [指南 13 — 成本与模型选择](guide/zh/13-cost-and-model-selection.md) |
+| 先看全貌，了解整体知识结构 | [知识体系总览](overview.md) |
+| 按路线从零开始学 | [学习路线图](roadmap.md) → [第 01 章：入门](guide/zh/01-getting-started.md) |
+| 查一个命令 / 快捷键 / API 参数 | [中文速查表](cheatsheet_zh.md) |
+| 了解 Claude Code 和其他工具的区别 | [AI 工具对比](comparison.md) |
+| 直接抄一个项目模板 | [模板目录](templates/) — Python · C++ · Java · TS · Rust · 全栈 |
+| 用 AI 做一个完整项目 | [第 11 章：端到端实战](guide/zh/11-end-to-end-project.md) |
+| 搭 AI CI/CD 流水线 | [第 12 章：CI/CD 集成](guide/zh/12-cicd-integration.md) |
+| 省 Token 钱 | [第 13 章：成本与模型选择](guide/zh/13-cost-and-model-selection.md) |
+| 找工具、库、文章等资源 | [资源列表](awesome.md) |
 
 ---
 
-## 学习路线图
+## 学习路线
 
-> 从入门到专家的完整路径。完整路线图：[roadmap.md](roadmap.md)
+> 完整路线图：[roadmap.md](roadmap.md)
 
 ```
-🟢 阶段 1：入门                 🔵 阶段 2：日常使用
-   安装 → 首次对话 →               交互模式 → Plan 模式 →
-   创建 CLAUDE.md                  Git 工作流 → 上下文管理
+阶段 1：入门                 阶段 2：日常使用
+  安装 → 首次对话 →             交互模式 → Plan 模式 →
+  创建 CLAUDE.md                Git 工作流 → 上下文管理
 
-🟡 阶段 3：高级用户             🔴 阶段 4：专家
-   Hooks → MCP 服务器 →           Claude API → Agent SDK →
-   Prompt 工程                     多 Agent → CI/CD 集成
-```
-
----
-
-## 快速导航
-
-| 板块 | 说明 |
-|------|------|
-| [知识体系总览](overview.md) | 一页纸看懂整个 repo 的知识结构 |
-| [学习路线图](roadmap.md) | 从入门到专家的分阶段学习路径 |
-| [中文速查表](cheatsheet_zh.md) · [English](cheatsheet.md) | 命令、快捷键和技巧速查 |
-| [AI 工具对比](comparison.md) | Claude Code vs Cursor vs Copilot vs Windsurf |
-| [教程指南](guide/zh/) | 从入门到高级的深度教程 |
-| [模板](templates/) | 即用型 CLAUDE.md、Hook 和 Prompt 模板 |
-| [代码示例](examples/) | 可运行的代码示例 |
-| [演讲讲义](demo-script.md) | 30 分钟完整演讲：认知升级 + 工具实战 + 团队落地 |
-| [资源列表](awesome.md) | 精选工具、MCP Server、文章等资源 |
-
----
-
-## 速查表精选
-
-> 完整速查表：[cheatsheet.md](cheatsheet.md)
-
-### Claude Code 核心命令
-
-| 命令 | 说明 |
-|------|------|
-| `claude` | 启动交互式 REPL |
-| `claude "问题"` | 一次性查询，不进入交互模式 |
-| `cat file \| claude "解释"` | 管道输入内容进行分析 |
-| `claude -c` | 恢复最近的对话 |
-| `claude --model` | 指定使用的模型 |
-| `/init` | 为项目生成 CLAUDE.md 文件 |
-| `/compact` | 压缩对话上下文 |
-| `/mcp` | 管理 MCP 服务器 |
-| `/cost` | 显示 Token 使用量和费用 |
-| Shift+Tab | 切换 Plan 模式（先思考再行动） |
-| Esc (按两次) | 中断 Claude 生成 |
-
-### CLAUDE.md 快速示例
-
-```markdown
-# CLAUDE.md — 放在项目根目录
-
-## 项目概述
-简要描述项目功能。
-
-## 技术栈
-- 语言：TypeScript
-- 框架：Next.js 14
-- 数据库：PostgreSQL + Prisma
-
-## 常用命令
-- `npm run dev` — 启动开发服务器
-- `npm test` — 运行测试
-- `npm run lint` — 运行代码检查
-
-## 代码规范
-- 使用函数式组件 + Hooks
-- 优先使用命名导出
-- 错误信息应对用户友好
+阶段 3：高级用户             阶段 4：专家
+  Hooks → MCP 服务器 →         Claude API → Agent SDK →
+  Prompt 工程                   多 Agent → CI/CD 集成
 ```
 
 ---
 
-## 教程指南 — 目录
+## 教程指南（17 章，中英双语）
 
-### 入门
-- [01 - Claude 入门](guide/zh/01-getting-started.md) — 安装、配置和你的第一次对话
+按照从入门到深入的顺序排列，建议顺序阅读。
 
-### Claude Code 精通
-- [02 - Claude Code 精通](guide/zh/02-claude-code-mastery.md) — 深入 Claude Code CLI 的功能和工作流
-- [03 - CLAUDE.md 指南](guide/zh/03-claude-md-guide.md) — 项目级配置的最佳实践
-- [04 - Hooks 与自动化](guide/zh/04-hooks-and-automation.md) — 使用 Hooks 和 Shell 集成自动化工作流
-- [05 - MCP 服务器](guide/zh/05-mcp-servers.md) — 通过 Model Context Protocol 扩展 Claude 的能力
-- [06 - 多 Agent 模式](guide/zh/06-multi-agent.md) — 编排多个 Claude Agent 完成复杂任务
+### 第一阶段：入门
 
-### API 与 SDK
-- [07 - API 与 SDK](guide/zh/07-api-and-sdk.md) — 使用 Claude API 和 Anthropic SDK 构建应用
-- [08 - Agent SDK](guide/zh/08-agent-sdk.md) — 使用 Claude Agent SDK 构建自定义 Agent
+| 章节 | 主题 | 你会学到 |
+|------|------|---------|
+| [01](guide/zh/01-getting-started.md) | Claude 入门 | 安装、配置、第一次对话 |
 
-### Prompt 工程
-- [09 - Prompt 工程](guide/zh/09-prompt-engineering.md) — 从 Claude 获得最佳结果的技巧
-- [10 - 高级工作流](guide/zh/10-advanced-workflows.md) — 复杂的实际自动化模式
+### 第二阶段：Claude Code 精通
 
-### 生产与运维 🆕
-- [11 - 端到端实战](guide/zh/11-end-to-end-project.md) — 用 AI 从想法到部署完成一个完整应用
-- [12 - CI/CD 集成](guide/zh/12-cicd-integration.md) — AI 驱动的代码审查、测试和部署流水线
-- [13 - 成本与模型选择](guide/zh/13-cost-and-model-selection.md) — Opus vs Sonnet vs Haiku、Token 预算、省钱策略
-- [14 - 调试 AI 代码](guide/zh/14-debugging-ai-code.md) — AI 出错时：发现、恢复、预防
+| 章节 | 主题 | 你会学到 |
+|------|------|---------|
+| [02](guide/zh/02-claude-code-mastery.md) | CLI 精通 | 交互/非交互模式、管道、Plan 模式 |
+| [03](guide/zh/03-claude-md-guide.md) | CLAUDE.md 指南 | 项目配置、上下文工程、多层级规则 |
+| [04](guide/zh/04-hooks-and-automation.md) | Hooks 与自动化 | 事件钩子、自动 lint、质量守护 |
+| [05](guide/zh/05-mcp-servers.md) | MCP 服务器 | 扩展 Claude 的工具能力 |
+| [06](guide/zh/06-multi-agent.md) | 多 Agent 模式 | 子 Agent、并行执行、任务编排 |
 
-### 团队与企业 🆕
-- [15 - 团队协作](guide/zh/15-team-workflows.md) — 多人 + AI 协作、PR 流程、新人入职
-- [16 - 安全合规](guide/zh/16-security-compliance.md) — Secrets 管理、OWASP、审计日志、合规
-- [17 - 大项目管理](guide/zh/17-large-codebase.md) — 10 万行代码的上下文策略、单仓库模式
+### 第三阶段：API 与 SDK
+
+| 章节 | 主题 | 你会学到 |
+|------|------|---------|
+| [07](guide/zh/07-api-and-sdk.md) | API 与 SDK | 用代码调用 Claude（Python/TypeScript） |
+| [08](guide/zh/08-agent-sdk.md) | Agent SDK | 构建自定义 Agent |
+
+### 第四阶段：Prompt 工程与高级模式
+
+| 章节 | 主题 | 你会学到 |
+|------|------|---------|
+| [09](guide/zh/09-prompt-engineering.md) | Prompt 工程 | 结构化 Prompt、Claude 专属技巧 |
+| [10](guide/zh/10-advanced-workflows.md) | 高级工作流 | 自动化审查、测试生成、发布管理 |
+
+### 第五阶段：生产与运维
+
+| 章节 | 主题 | 你会学到 |
+|------|------|---------|
+| [11](guide/zh/11-end-to-end-project.md) | 端到端实战 | 从想法到部署的完整 AI 开发流程 |
+| [12](guide/zh/12-cicd-integration.md) | CI/CD 集成 | AI 驱动的代码审查和部署流水线 |
+| [13](guide/zh/13-cost-and-model-selection.md) | 成本与模型选择 | Opus/Sonnet/Haiku 对比、省钱策略 |
+| [14](guide/zh/14-debugging-ai-code.md) | 调试 AI 代码 | 常见 AI 错误、预防与修复 |
+
+### 第六阶段：团队与企业
+
+| 章节 | 主题 | 你会学到 |
+|------|------|---------|
+| [15](guide/zh/15-team-workflows.md) | 团队协作 | 多人 + AI 协作、PR 流程、新人入职 |
+| [16](guide/zh/16-security-compliance.md) | 安全合规 | Secrets 管理、OWASP、审计、合规 |
+| [17](guide/zh/17-large-codebase.md) | 大项目管理 | 10 万行代码的上下文策略、Monorepo |
 
 ---
 
 ## 模板
 
-即用模板 — 直接复制到你的项目中：
+即用模板，复制到你的项目中：
 
 | 模板 | 说明 |
 |------|------|
@@ -152,28 +115,26 @@
 | [CLAUDE-python.md](templates/CLAUDE-python.md) | Python 项目模板 |
 | [CLAUDE-typescript.md](templates/CLAUDE-typescript.md) | TypeScript/Node.js 项目模板 |
 | [CLAUDE-rust.md](templates/CLAUDE-rust.md) | Rust 项目模板 |
-| [CLAUDE-cpp.md](templates/CLAUDE-cpp.md) | C++ 项目模板（CMake, GTest, clang-tidy）🆕 |
-| [CLAUDE-java.md](templates/CLAUDE-java.md) | Java 项目模板（Spring Boot, Maven, JUnit 5）🆕 |
-| [CLAUDE-fullstack.md](templates/CLAUDE-fullstack.md) | 全栈项目模板（前端+后端+数据库）🆕 |
+| [CLAUDE-cpp.md](templates/CLAUDE-cpp.md) | C++ 项目模板（CMake, GTest, clang-tidy） |
+| [CLAUDE-java.md](templates/CLAUDE-java.md) | Java 项目模板（Spring Boot, Maven, JUnit 5） |
+| [CLAUDE-fullstack.md](templates/CLAUDE-fullstack.md) | 全栈项目模板（前端+后端+数据库） |
 | [系统 Prompt](templates/system-prompts/) | 代码审查、写作、分析等场景的 Prompt |
 | [Hook 脚本](templates/hooks/) | 预提交检查、自动测试等 |
-| [安全模板](templates/security/) | 安全钩子、AI 代码 OWASP 检查清单 🆕 |
+| [安全模板](templates/security/) | 安全钩子、AI 代码 OWASP 检查清单 |
 
 ---
 
 ## 代码示例
 
-按类别组织的可运行代码示例：
+### 全栈示例
+- [任务管理器 Demo](examples/fullstack-demo/) — 完整项目：CLAUDE.md + Hooks + CI/CD + Docker
 
-### 全栈示例 🆕
-- [任务管理器 Demo](examples/fullstack-demo/) — 完整项目：CLAUDE.md + 钩子 + CI/CD + Docker
-
-### CI/CD 模板 🆕
+### CI/CD 模板
 - [AI 代码审查](examples/cicd-templates/github-actions/ai-code-review.yml) — GitHub Actions：AI 审查每个 PR
 - [AI 测试生成](examples/cicd-templates/github-actions/ai-test-gen.yml) — 自动为改动文件生成测试
 - [GitLab CI](examples/cicd-templates/gitlab-ci/) — GitLab 等效流水线
 
-### Claude Code
+### Claude Code 配置
 - [Hook 配置](examples/claude-code/hooks/) — 自定义自动化 Hook
 - [MCP 服务器配置](examples/claude-code/mcp-configs/) — 即用型 MCP 配置
 - [CLAUDE.md 示例](examples/claude-code/claude-md/) — 真实项目配置
@@ -184,17 +145,17 @@
 
 ### Agent
 - [简单 Agent](examples/agents/simple-agent/) — 带工具的基础 Agent
-- [代码审查 Bot](examples/agents/code-review-bot/) — 实用的自动化代码审查工具
+- [代码审查 Bot](examples/agents/code-review-bot/) — 自动化代码审查工具
 
-### AI 编码工作流框架 🆕
+### 工作流框架
 
-> 将 AI 编码变成结构化工程流程的 Harness 框架：需求→设计→实现→审查→交付。
+> 将 AI 编码变成结构化工程流程：需求→设计→实现→审查→交付。
 
 | 分类 | 框架 |
 |------|------|
 | 方法论 | [Superpowers](examples/frameworks/superpowers/) · [GSD](examples/frameworks/gsd/) · [Spec-Kit](examples/frameworks/spec-kit/) · [BMAD](examples/frameworks/bmad-method/) |
 | 虚拟团队 | [GStack](examples/frameworks/gstack/) · [ECC](examples/frameworks/ecc/) |
-| 编排进化 | [Hermes Agent](examples/frameworks/hermes-agent/) · [Citadel](examples/frameworks/citadel/) |
+| 编排 | [Hermes Agent](examples/frameworks/hermes-agent/) · [Citadel](examples/frameworks/citadel/) |
 | 全生命周期 | [CC Harness](examples/frameworks/claude-code-harness/) · [CC Workflows](examples/frameworks/claude-code-workflows/) |
 
 👉 **[完整指南与对比 →](examples/frameworks/)**
