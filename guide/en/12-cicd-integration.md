@@ -1312,6 +1312,42 @@ echo "  - Reduce review frequency on low-risk PRs"
 
 ---
 
+## Observability for AI-Assisted CI/CD
+
+After integrating AI into CI/CD, you need to monitor the AI itself, not just code quality.
+
+### Key Metrics
+
+| Metric | Meaning | Alert Threshold |
+|--------|---------|-----------------|
+| AI review false positive rate | % of AI-flagged issues that aren't real problems | > 30% → tune prompt |
+| AI suggestion acceptance rate | % of AI suggestions developers accept | < 40% → AI quality declining |
+| Token cost per PR | AI processing cost for each PR | Sudden 2x spike → investigate |
+| AI processing latency | Time from PR submission to AI review complete | > 5min → affects workflow |
+
+### Tagging AI-Generated Code
+
+Mark AI involvement in commits or PRs for traceability:
+
+```bash
+# In commit messages
+git commit -m "feat: add user auth
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+AI-Assisted: code-generation"
+
+# Or auto-label PRs
+gh pr edit --add-label "ai-assisted"
+```
+
+### Release Strategy for AI Code
+
+AI-generated code needs extra caution at release time:
+
+- **Feature flags**: New features off by default, gradually enable, confirm before full rollout
+- **Canary deploys**: Modules refactored by AI deploy to 5% traffic first, monitor error rates
+- **Auto-rollback triggers**: Error rate exceeds threshold (e.g., 2x baseline) → auto-rollback without waiting for humans
+
 ---
 
 [← Previous: End-to-End Project](11-end-to-end-project.md) | [Table of Contents](../../README.md) | [Next: Cost & Model Selection →](13-cost-and-model-selection.md)

@@ -853,4 +853,54 @@ When stuck:
 
 ---
 
+## Detecting AI Output Quality Degradation
+
+AI isn't static — model updates, prompt changes, and project evolution can all cause output quality to decline.
+
+### Establish Baselines
+
+When first adopting AI at scale, record these baseline metrics:
+- First-pass CI rate (% of AI-generated code that passes CI on first push)
+- Review modification rate (% of AI code modified during review)
+- Post-deploy bug rate (bugs found within 7 days of shipping AI code)
+
+### Continuous Monitoring
+
+Track these metrics weekly/monthly. If trends worsen:
+1. **Check CLAUDE.md** — Did recent changes degrade context quality?
+2. **Check model version** — Was there an automatic upgrade affecting output?
+3. **Check project changes** — As the codebase grows, AI may need more precise context guidance
+
+## Incident Response for AI-Generated Code
+
+When AI-generated code causes a production incident:
+
+### Tracing Workflow
+
+1. **Locate the problematic code** — `git blame` to find the introducing commit
+2. **Confirm AI involvement** — Check commit message for `Co-Authored-By: Claude` or AI labels
+3. **Trace the session** — If logs exist, find the original prompt and AI reasoning
+4. **Root cause analysis** — Was the prompt imprecise? Missing CLAUDE.md constraints? Or inherent AI limitation?
+
+### Postmortem Template
+
+```markdown
+## AI Code Incident Postmortem
+
+### Summary
+- Timing / blast radius / duration
+
+### Root Cause
+- What problematic code did AI generate
+- Why did AI generate it (prompt/context/model limitation)
+- Why didn't review catch it
+
+### Action Items
+- CLAUDE.md constraints to add
+- CI checks to add
+- Review process adjustments
+```
+
+---
+
 [← Previous: Cost & Model Selection](13-cost-and-model-selection.md) | [Table of Contents](../../README.md) | [Next: Team Workflows →](15-team-workflows.md)

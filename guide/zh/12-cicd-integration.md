@@ -1275,4 +1275,42 @@ echo "  - 降低低风险 PR 的审查频率"
 
 ---
 
+## AI 产出的可观测性
+
+将 AI 引入 CI/CD 后，需要监控 AI 本身的表现，而不仅仅是代码质量。
+
+### 关键指标
+
+| 指标 | 含义 | 告警阈值建议 |
+|------|------|-------------|
+| AI Review 误报率 | AI 标记的问题中实际不是问题的比例 | > 30% 需调优 prompt |
+| AI 建议采纳率 | 开发者接受 AI 建议的比例 | < 40% 说明 AI 建议质量下降 |
+| Token 消耗/PR | 每个 PR 的 AI 处理成本 | 突然翻倍需排查 |
+| AI 处理延迟 | 从 PR 提交到 AI 审查完成的时间 | > 5分钟影响工作流 |
+
+### AI 代码标记
+
+在 commit 或 PR 中标记 AI 参与度，便于后续追溯：
+
+```bash
+# commit message 中标注
+git commit -m "feat: add user auth
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+AI-Assisted: code-generation"
+
+# 或通过 PR label 自动标记
+gh pr edit --add-label "ai-assisted"
+```
+
+### AI 代码的发布策略
+
+AI 生成的代码在发布时需要额外谨慎：
+
+- **Feature Flag 守护**：新功能默认关闭，灰度开放，确认无问题再全量
+- **金丝雀发布**：AI 重构的模块先部署到 5% 流量，监控错误率
+- **自动回滚触发**：错误率超过阈值（如 2x 基线）自动回滚，不等人工介入
+
+---
+
 [← 上一章：端到端实战](11-end-to-end-project.md) | [目录](../../README_zh.md) | [下一章：成本与模型选择 →](13-cost-and-model-selection.md)

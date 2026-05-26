@@ -318,4 +318,45 @@ response = client.messages.create(
 
 ---
 
+## Prompt 版本管理
+
+当 AI 深度融入工作流后，Prompt 就是代码——需要和代码一样做版本管理。
+
+### CLAUDE.md 天然版本化
+
+CLAUDE.md 提交在 git 里，自动拥有完整版本历史：
+
+```bash
+# 查看 CLAUDE.md 的变更历史
+git log --oneline CLAUDE.md
+
+# 对比两个版本的 CLAUDE.md
+git diff abc123..def456 CLAUDE.md
+
+# 回滚到之前的版本
+git checkout abc123 -- CLAUDE.md
+```
+
+### System Prompt 变更追踪
+
+对于 API 调用中的 system prompt，建议：
+- 将 system prompt 存为独立文件（如 `prompts/review.md`），纳入 git 管理
+- 变更时写清原因："因为 AI 经常漏检 SQL 注入，加了安全审查约束"
+- 重大变更前，用 A/B 对比新旧 prompt 的输出质量
+
+### 团队 Prompt 规范
+
+```markdown
+# prompts/CHANGELOG.md
+
+## 2025-05-20
+- review.md: 增加"必须检查错误处理"约束（因为漏了 3 次）
+- CLAUDE.md: 移除过时的 API 路径描述
+
+## 2025-05-10
+- CLAUDE.md: 添加数据库迁移约束（src/legacy/ 不许碰）
+```
+
+---
+
 [← 上一章：Agent SDK](08-agent-sdk.md) | [目录](../../README_zh.md) | [下一章：高级工作流 →](10-advanced-workflows.md)

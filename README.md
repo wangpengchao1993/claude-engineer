@@ -79,14 +79,14 @@ Chapters are ordered from beginner to advanced. Recommended to read in order.
 | [07](guide/en/07-api-and-sdk.md) | API & SDK | Call Claude from code (Python/TypeScript) |
 | [08](guide/en/08-agent-sdk.md) | Agent SDK | Build custom agents |
 
-### Stage 4: Prompt Engineering & Advanced
+### Stage 4: Prompt & Advanced
 
 | Ch | Topic | What You'll Learn |
 |----|-------|-------------------|
 | [09](guide/en/09-prompt-engineering.md) | Prompt Engineering | Structured prompts, Claude-specific techniques |
 | [10](guide/en/10-advanced-workflows.md) | Advanced Workflows | Automated review, test gen, release management |
 
-### Stage 5: Production & Operations
+### Stage 5: Production
 
 | Ch | Topic | What You'll Learn |
 |----|-------|-------------------|

@@ -577,4 +577,45 @@ Effective team AI collaboration requires:
 
 ---
 
+## Measuring AI Effectiveness
+
+After adopting AI, teams need data to answer: "Is AI actually making us faster/better?"
+
+### Core Metrics
+
+| Metric | How to Measure | Healthy Range |
+|--------|---------------|---------------|
+| **Delivery speed change** | Compare PR merge cycle before/after AI adoption | 20-40% reduction |
+| **First-pass CI rate** | % of AI-generated code passing CI on first push | > 70% |
+| **Review rework rate** | % of AI code modified during review | < 30% |
+| **Post-deploy bug rate** | Bugs within 7 days for AI code vs human code | Should be equal or lower |
+| **Developer satisfaction** | Monthly anonymous survey (1-5 scale) | > 3.5 |
+
+### Avoid Vanity Metrics
+
+Don't just track "how many lines of code AI generated" — lines of code ≠ value. Focus on quality and delivery efficiency, not output volume.
+
+## Scaling AI Across Teams
+
+Going from 1 person using AI to 100 people isn't just copy-paste.
+
+### Phased Rollout
+
+| Phase | Size | Focus |
+|-------|------|-------|
+| Pilot | 1-3 people | Validate tools, find pitfalls, write CLAUDE.md |
+| Expand | 5-15 people | Standardize config (CLAUDE.md + Hooks + permissions), establish review norms |
+| Full team | Everyone | Training, measurement, continuous optimization |
+
+### Preventing "AI Zombie Code"
+
+The biggest risk isn't AI writing bugs — it's the team accepting AI code that nobody understands.
+
+Prevention:
+- **Review means understand**: Hold AI code to the same review standard as human code
+- **Comment key decisions**: If AI used an unusual approach, require developers to add comments explaining why
+- **Knowledge sharing**: Regularly share "interesting AI solutions" or "AI pitfalls" as team learning moments
+
+---
+
 [← Previous: Debugging AI Code](14-debugging-ai-code.md) | [Table of Contents](../../README.md) | [Next: Security & Compliance →](16-security-compliance.md)

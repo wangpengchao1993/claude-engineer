@@ -193,8 +193,9 @@ import asyncio
 client = anthropic.Anthropic()
 
 async def run_agent(system_prompt: str, task: str) -> str:
-    """Run a single specialized agent."""
-    response = client.messages.create(
+    """Run a single specialized agent (uses asyncio.to_thread for true parallelism)."""
+    response = await asyncio.to_thread(
+        client.messages.create,
         model="claude-sonnet-4-6-20250514",
         max_tokens=4096,
         system=system_prompt,

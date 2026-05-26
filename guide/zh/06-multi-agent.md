@@ -138,8 +138,9 @@ import asyncio
 client = anthropic.Anthropic()
 
 async def run_agent(system_prompt: str, task: str) -> str:
-    """运行一个专门的 Agent。"""
-    response = client.messages.create(
+    """运行一个专门的 Agent（用 asyncio.to_thread 实现真正并行）。"""
+    response = await asyncio.to_thread(
+        client.messages.create,
         model="claude-sonnet-4-6-20250514",
         max_tokens=4096,
         system=system_prompt,

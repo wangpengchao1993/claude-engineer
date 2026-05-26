@@ -31,9 +31,9 @@
 |---|---|---|---|---|
 | Claude Opus 4 | $15.00 | $75.00 | $18.75 | $1.50 |
 | Claude Sonnet 4 | $3.00 | $15.00 | $3.75 | $0.30 |
-| Claude Haiku 3.5 | $0.80 | $4.00 | $1.00 | $0.08 |
+| Claude Haiku 4.5 | $0.80 | $4.00 | $1.00 | $0.08 |
 
-> Note: Prices as of early 2025. Check anthropic.com/pricing for current rates.
+> Note: Prices may change at any time. Check [anthropic.com/pricing](https://www.anthropic.com/pricing) for current rates.
 
 ### When to Use Each Model
 
@@ -592,6 +592,58 @@ Biggest cost savers:
 ```
 
 > Next: [Debugging AI-Generated Code](14-debugging-ai-code.md) -- learn to catch and fix common AI coding mistakes.
+
+---
+
+## Organization-Level Token Budget Management
+
+For individuals, `/cost` is enough. But when scaling AI across teams, you need systematic budget management.
+
+### Budget Allocation Framework
+
+| Dimension | Approach |
+|-----------|----------|
+| **By team** | Set monthly token budget caps per team, isolate via separate API keys |
+| **By project** | High-priority projects get Opus, maintenance work uses Sonnet/Haiku |
+| **By task type** | Code generation → Sonnet, review/testing → Haiku, architecture → Opus |
+| **Buffer** | Reserve 15-20% for unexpected needs (production incidents, etc.) |
+
+### Cost Forecasting
+
+```
+Monthly cost ≈ developers × avg daily tokens × work days × price
+
+Example:
+- 10-person team, 100K tokens/day avg (Sonnet)
+- Monthly ≈ 10 × 100K × 22 × $3/M input + $15/M output
+- Roughly $800-1500/month (depends on input/output ratio)
+```
+
+### Consumption Anomaly Alerts
+
+- Set daily/weekly spend thresholds with automatic notifications
+- Watch for sudden spikes — usually infinite loops, oversized file inputs, or agents stuck retrying
+- Periodically review top consumers to find more economical usage patterns
+
+---
+
+## Model Migration Strategy
+
+When a new model launches (e.g., Sonnet 4.6 → next gen), don't switch everyone at once.
+
+### Four-Step Gradual Migration
+
+1. **Evaluate**: Compare new vs old on representative tasks (code quality, speed, cost)
+2. **Canary**: Switch 10-20% of developers first, collect feedback for 1-2 weeks
+3. **Validate**: Compare CI pass rates, bug rates, developer satisfaction between groups
+4. **Rollout**: After confirming no regression, switch everyone; keep old model API key as fallback
+
+### Prompt Compatibility Check
+
+Model upgrades may cause the same CLAUDE.md to produce different results:
+- Export AI outputs from a set of "standard tasks" as a baseline before upgrading
+- Run the same tasks after upgrading and compare output differences
+- Key areas: code style changes, tool calling behavior, constraint adherence
 
 ---
 

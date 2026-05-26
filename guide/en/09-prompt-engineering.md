@@ -442,4 +442,45 @@ Ready-to-use prompt templates for common tasks:
 
 ---
 
+## Prompt Version Management
+
+When AI is deeply integrated into your workflow, prompts are code — they need version control just like code.
+
+### CLAUDE.md Is Naturally Versioned
+
+CLAUDE.md lives in git, giving it full version history for free:
+
+```bash
+# View CLAUDE.md change history
+git log --oneline CLAUDE.md
+
+# Compare two versions
+git diff abc123..def456 CLAUDE.md
+
+# Rollback to a previous version
+git checkout abc123 -- CLAUDE.md
+```
+
+### System Prompt Change Tracking
+
+For system prompts used in API calls:
+- Store system prompts as separate files (e.g., `prompts/review.md`) in git
+- Document why each change was made: "Added security review constraint because AI missed SQL injection 3 times"
+- Before major changes, A/B compare old vs new prompt output quality
+
+### Team Prompt Conventions
+
+```markdown
+# prompts/CHANGELOG.md
+
+## 2025-05-20
+- review.md: Added "must check error handling" constraint (missed 3 times)
+- CLAUDE.md: Removed outdated API path descriptions
+
+## 2025-05-10
+- CLAUDE.md: Added database migration constraint (src/legacy/ is off-limits)
+```
+
+---
+
 [← Previous: Agent SDK](08-agent-sdk.md) | [Table of Contents](../../README.md) | [Next: Advanced Workflows →](10-advanced-workflows.md)
