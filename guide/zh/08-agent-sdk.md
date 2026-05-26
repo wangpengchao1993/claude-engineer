@@ -282,3 +282,7 @@ def search_knowledge_base(query: str) -> list[dict]:
 <p align="center">
   <strong>下一篇：</strong> <a href="09-prompt-engineering.md">Prompt 工程</a> — 从 Claude 获得最佳结果
 </p>
+
+---
+
+[← 上一章：API 与 SDK](07-api-and-sdk.md) | [目录](../../README_zh.md) | [下一章：Prompt 工程 →](09-prompt-engineering.md)

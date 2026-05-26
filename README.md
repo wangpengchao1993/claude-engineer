@@ -41,13 +41,13 @@
 > Full roadmap: [roadmap.md](roadmap.md)
 
 ```
-Stage 1: Getting Started        Stage 2: Daily Driver
-  Install → First Chat →          Interactive → Plan Mode →
-  CLAUDE.md                        Git & Pipes → /compact
+Stage 1: Getting Started    Stage 2: CLI Mastery        Stage 3: API & SDK
+  Install → First Chat →      Interactive/Plan →           Claude API →
+  /init & CLAUDE.md            Hooks → MCP → Multi-Agent    Tool Use → Agent SDK
 
-Stage 3: Power User             Stage 4: Expert
-  Hooks → MCP Servers →           Claude API → Agent SDK →
-  Prompt Engineering               Multi-Agent → CI/CD
+Stage 4: Prompt & Advanced  Stage 5: Production         Stage 6: Team & Enterprise
+  Prompt Engineering →         E2E Project → CI/CD →       Team Workflows →
+  Advanced Workflows           Cost Control → Debug AI      Security → Large Codebase
 ```
 
 ---

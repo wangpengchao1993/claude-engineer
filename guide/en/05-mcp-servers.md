@@ -486,3 +486,7 @@ claude mcp list
 <p align="center">
   <strong>Next:</strong> <a href="06-multi-agent.md">Multi-Agent Patterns</a> — Orchestrate multiple Claude agents
 </p>
+
+---
+
+[← Previous: Hooks & Automation](04-hooks-and-automation.md) | [Table of Contents](../../README.md) | [Next: Multi-Agent Patterns →](06-multi-agent.md)

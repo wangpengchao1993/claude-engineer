@@ -429,3 +429,7 @@ claude -p "审查安全问题" \
 <p align="center">
   <strong>下一篇：</strong> <a href="03-claude-md-guide.md">CLAUDE.md 指南</a> — 掌握项目级配置
 </p>
+
+---
+
+[← 上一章：Claude 入门](01-getting-started.md) | [目录](../../README_zh.md) | [下一章：CLAUDE.md 指南 →](03-claude-md-guide.md)

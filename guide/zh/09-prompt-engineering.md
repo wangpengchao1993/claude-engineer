@@ -315,3 +315,7 @@ response = client.messages.create(
 <p align="center">
   <strong>下一篇：</strong> <a href="10-advanced-workflows.md">高级工作流</a> — 复杂的实际自动化模式
 </p>
+
+---
+
+[← 上一章：Agent SDK](08-agent-sdk.md) | [目录](../../README_zh.md) | [下一章：高级工作流 →](10-advanced-workflows.md)

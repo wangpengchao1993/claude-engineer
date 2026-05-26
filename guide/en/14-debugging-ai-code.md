@@ -851,4 +851,6 @@ When stuck:
   4. Fresh start (/clear, /compact)
 ```
 
-> Previous: [Cost Optimization & Model Selection](13-cost-and-model-selection.md)
+---
+
+[← Previous: Cost & Model Selection](13-cost-and-model-selection.md) | [Table of Contents](../../README.md) | [Next: Team Workflows →](15-team-workflows.md)

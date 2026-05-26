@@ -290,3 +290,7 @@ Turborepo 管理的 Monorepo。
 <p align="center">
   <strong>下一篇：</strong> <a href="04-hooks-and-automation.md">Hooks 与自动化</a> — 自动化工作流
 </p>
+
+---
+
+[← 上一章：Claude Code 精通](02-claude-code-mastery.md) | [目录](../../README_zh.md) | [下一章：Hooks 与自动化 →](04-hooks-and-automation.md)

@@ -706,3 +706,7 @@ Security with AI-generated code requires defense in depth:
 4. **Audit dependencies**: AI may suggest outdated or vulnerable packages
 5. **Maintain compliance**: Log AI usage, tag commits, protect personal data
 6. **Automate security checks**: Hooks catch issues before they reach production
+
+---
+
+[← Previous: Team Workflows](15-team-workflows.md) | [Table of Contents](../../README.md) | [Next: Large Codebase Management →](17-large-codebase.md)

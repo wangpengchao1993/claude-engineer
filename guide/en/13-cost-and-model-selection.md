@@ -592,3 +592,7 @@ Biggest cost savers:
 ```
 
 > Next: [Debugging AI-Generated Code](14-debugging-ai-code.md) -- learn to catch and fix common AI coding mistakes.
+
+---
+
+[← Previous: CI/CD Integration](12-cicd-integration.md) | [Table of Contents](../../README.md) | [Next: Debugging AI Code →](14-debugging-ai-code.md)

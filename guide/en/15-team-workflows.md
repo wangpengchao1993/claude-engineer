@@ -574,3 +574,7 @@ Effective team AI collaboration requires:
 5. **Ownership culture**: The prompter owns the code
 6. **Continuous improvement**: Track and retrospect on AI effectiveness
 7. **Healthy skepticism**: Review everything, trust nothing blindly
+
+---
+
+[← Previous: Debugging AI Code](14-debugging-ai-code.md) | [Table of Contents](../../README.md) | [Next: Security & Compliance →](16-security-compliance.md)

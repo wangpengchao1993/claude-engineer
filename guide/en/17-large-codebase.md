@@ -592,3 +592,7 @@ Working with large codebases and AI requires discipline:
 4. **Scope to packages**: In monorepos, work one package at a time
 5. **Know AI's limits**: Cross-cutting changes, legacy code, and performance tuning need human hands
 6. **Break monoliths into chunks**: Map, plan, extract incrementally, verify constantly
+
+---
+
+[← Previous: Security & Compliance](16-security-compliance.md) | [Table of Contents](../../README.md)

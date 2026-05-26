@@ -850,3 +850,7 @@ git revert <commit>               # 反向提交（安全）
 ```
 
 > 上一篇：[成本优化与模型选择](13-cost-and-model-selection.md)
+
+---
+
+[← 上一章：成本与模型选择](13-cost-and-model-selection.md) | [目录](../../README_zh.md) | [下一章：团队协作 →](15-team-workflows.md)

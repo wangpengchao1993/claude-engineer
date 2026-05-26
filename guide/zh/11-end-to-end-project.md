@@ -1215,3 +1215,7 @@ Opus 预估费用：                约 $12.00
 ---
 
 *下一篇指南：[CI/CD 集成](./12-cicd-integration.md) — 将 AI 引入你的部署流水线。*
+
+---
+
+[← 上一章：高级工作流](10-advanced-workflows.md) | [目录](../../README_zh.md) | [下一章：CI/CD 集成 →](12-cicd-integration.md)

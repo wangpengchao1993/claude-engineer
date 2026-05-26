@@ -476,3 +476,7 @@ claude -p "review for security issues" \
 <p align="center">
   <strong>Next:</strong> <a href="03-claude-md-guide.md">CLAUDE.md Guide</a> — Master project-level configuration
 </p>
+
+---
+
+[← Previous: Getting Started](01-getting-started.md) | [Table of Contents](../../README.md) | [Next: CLAUDE.md Guide →](03-claude-md-guide.md)

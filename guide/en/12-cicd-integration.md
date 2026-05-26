@@ -1312,4 +1312,6 @@ echo "  - Reduce review frequency on low-risk PRs"
 
 ---
 
-*Previous guide: [End-to-End Project](./11-end-to-end-project.md) — Build a complete project with AI.*
+---
+
+[← Previous: End-to-End Project](11-end-to-end-project.md) | [Table of Contents](../../README.md) | [Next: Cost & Model Selection →](13-cost-and-model-selection.md)

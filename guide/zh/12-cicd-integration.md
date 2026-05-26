@@ -1272,3 +1272,7 @@ echo "  - 降低低风险 PR 的审查频率"
 ---
 
 *上一篇指南：[端到端实战项目](./11-end-to-end-project.md) — 用 AI 构建完整项目。*
+
+---
+
+[← 上一章：端到端实战](11-end-to-end-project.md) | [目录](../../README_zh.md) | [下一章：成本与模型选择 →](13-cost-and-model-selection.md)

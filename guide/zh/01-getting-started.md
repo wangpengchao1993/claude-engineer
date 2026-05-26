@@ -350,3 +350,7 @@ cat error.log | claude -p "是什么导致了这个错误？"
 <p align="center">
   <strong>下一篇：</strong> <a href="02-claude-code-mastery.md">Claude Code 精通</a> — 掌握每一个功能
 </p>
+
+---
+
+[目录](../../README_zh.md) | [下一章：Claude Code 精通 →](02-claude-code-mastery.md)

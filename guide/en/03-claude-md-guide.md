@@ -427,3 +427,7 @@ We provide ready-to-use templates for common project types:
 <p align="center">
   <strong>Next:</strong> <a href="04-hooks-and-automation.md">Hooks & Automation</a> — Automate your workflows
 </p>
+
+---
+
+[← Previous: Claude Code Mastery](02-claude-code-mastery.md) | [Table of Contents](../../README.md) | [Next: Hooks & Automation →](04-hooks-and-automation.md)

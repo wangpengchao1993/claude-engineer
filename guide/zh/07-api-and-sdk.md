@@ -306,3 +306,7 @@ def call_with_retry(messages, max_retries=3):
 <p align="center">
   <strong>下一篇：</strong> <a href="08-agent-sdk.md">Agent SDK</a> — 构建自定义 Agent
 </p>
+
+---
+
+[← 上一章：多 Agent 模式](06-multi-agent.md) | [目录](../../README_zh.md) | [下一章：Agent SDK →](08-agent-sdk.md)

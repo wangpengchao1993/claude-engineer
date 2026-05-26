@@ -91,11 +91,12 @@
 └─────────────────────────────────────────────────────────────────────────┘
 
 学习路径 / Learning Path:
-─────────────────────────
-入门 ──────→ 日常 ──────→ 进阶 ──────→ 专家
- 安装          交互模式     Hooks       API/SDK
- 首次对话      Plan模式     MCP         Agent
- CLAUDE.md     Git工作流    Prompt工程   CI/CD
+──────────────────────────────────────────────────────────────────────
+Stage 1       Stage 2         Stage 3      Stage 4       Stage 5        Stage 6
+入门 ──→ CLI 精通 ──→ API/SDK ──→ 工程进阶 ──→ 生产运维 ──→ 团队企业
+ 安装      交互/Plan     Messages    Prompt工程   端到端项目    团队协作
+ 首次对话   CLAUDE.md     Tool Use    高级工作流   CI/CD        安全合规
+ /init     Hooks/MCP     Agent SDK               成本控制     大型代码库
 ```
 
 ---

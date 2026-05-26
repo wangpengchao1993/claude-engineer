@@ -283,3 +283,7 @@ jobs:
 <p align="center">
   <strong>下一篇：</strong> <a href="05-mcp-servers.md">MCP 服务器</a> — 扩展 Claude 的能力
 </p>
+
+---
+
+[← 上一章：CLAUDE.md 指南](03-claude-md-guide.md) | [目录](../../README_zh.md) | [下一章：MCP 服务器 →](05-mcp-servers.md)

@@ -350,3 +350,7 @@ Or jump to the [Cheatsheet](../../cheatsheet.md) for a quick reference.
 <p align="center">
   <strong>Next:</strong> <a href="02-claude-code-mastery.md">Claude Code Mastery</a> — Master every feature
 </p>
+
+---
+
+[Table of Contents](../../README.md) | [Next: Claude Code Mastery →](02-claude-code-mastery.md)

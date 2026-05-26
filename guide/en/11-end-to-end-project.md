@@ -1253,3 +1253,7 @@ Once you've completed the base project, try these extensions:
 ---
 
 *Next guide: [CI/CD Integration](./12-cicd-integration.md) — Take AI into your deployment pipeline.*
+
+---
+
+[← Previous: Advanced Workflows](10-advanced-workflows.md) | [Table of Contents](../../README.md) | [Next: CI/CD Integration →](12-cicd-integration.md)

@@ -541,3 +541,7 @@ response = client.messages.create(
 <p align="center">
   <strong>Next:</strong> <a href="08-agent-sdk.md">Agent SDK</a> — Build custom agents
 </p>
+
+---
+
+[← Previous: Multi-Agent Patterns](06-multi-agent.md) | [Table of Contents](../../README.md) | [Next: Agent SDK →](08-agent-sdk.md)

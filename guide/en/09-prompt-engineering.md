@@ -439,3 +439,7 @@ Ready-to-use prompt templates for common tasks:
 <p align="center">
   <strong>Next:</strong> <a href="10-advanced-workflows.md">Advanced Workflows</a> — Complex real-world automation
 </p>
+
+---
+
+[← Previous: Agent SDK](08-agent-sdk.md) | [Table of Contents](../../README.md) | [Next: Advanced Workflows →](10-advanced-workflows.md)

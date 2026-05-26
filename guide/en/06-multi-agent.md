@@ -280,3 +280,7 @@ Individual agents can fail. Design your system to:
 <p align="center">
   <strong>Next:</strong> <a href="07-api-and-sdk.md">API & SDK</a> — Build applications with Claude
 </p>
+
+---
+
+[← Previous: MCP Servers](05-mcp-servers.md) | [Table of Contents](../../README.md) | [Next: API & SDK →](07-api-and-sdk.md)

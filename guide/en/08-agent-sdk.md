@@ -432,3 +432,7 @@ def query_database(sql: str) -> dict:
 <p align="center">
   <strong>Next:</strong> <a href="09-prompt-engineering.md">Prompt Engineering</a> — Get the best results from Claude
 </p>
+
+---
+
+[← Previous: API & SDK](07-api-and-sdk.md) | [Table of Contents](../../README.md) | [Next: Prompt Engineering →](09-prompt-engineering.md)

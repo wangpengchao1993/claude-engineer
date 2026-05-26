@@ -461,3 +461,7 @@ Each step uses Claude in a different way — interactive, scripted, and CI-integ
 <p align="center">
   <strong>Start from the beginning:</strong> <a href="01-getting-started.md">Getting Started</a>
 </p>
+
+---
+
+[← Previous: Prompt Engineering](09-prompt-engineering.md) | [Table of Contents](../../README.md) | [Next: End-to-End Project →](11-end-to-end-project.md)

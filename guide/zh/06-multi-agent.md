@@ -188,3 +188,7 @@ echo "所有审查完成。"
 <p align="center">
   <strong>下一篇：</strong> <a href="07-api-and-sdk.md">API 与 SDK</a> — 用 Claude 构建应用
 </p>
+
+---
+
+[← 上一章：MCP 服务器](05-mcp-servers.md) | [目录](../../README_zh.md) | [下一章：API 与 SDK →](07-api-and-sdk.md)

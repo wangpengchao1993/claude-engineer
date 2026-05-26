@@ -590,3 +590,7 @@ claude "审查 src/auth/ 中的认证流程"
 ```
 
 > 下一篇：[调试 AI 生成的代码](14-debugging-ai-code.md) -- 学会捕获和修复常见 AI 编码错误。
+
+---
+
+[← 上一章：CI/CD 集成](12-cicd-integration.md) | [目录](../../README_zh.md) | [下一章：调试 AI 代码 →](14-debugging-ai-code.md)

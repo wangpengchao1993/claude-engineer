@@ -482,3 +482,7 @@ echo "$(date -Iseconds) | Tool: $CLAUDE_TOOL_NAME | File: $CLAUDE_FILE_PATH" >> 
 <p align="center">
   <strong>Next:</strong> <a href="05-mcp-servers.md">MCP Servers</a> — Extend Claude's capabilities
 </p>
+
+---
+
+[← Previous: CLAUDE.md Guide](03-claude-md-guide.md) | [Table of Contents](../../README.md) | [Next: MCP Servers →](05-mcp-servers.md)

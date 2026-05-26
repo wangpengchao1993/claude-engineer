@@ -261,3 +261,7 @@ async def main():
 <p align="center">
   <strong>下一篇：</strong> <a href="06-multi-agent.md">多 Agent 模式</a> — 编排多个 Claude Agent
 </p>
+
+---
+
+[← 上一章：Hooks 与自动化](04-hooks-and-automation.md) | [目录](../../README_zh.md) | [下一章：多 Agent 模式 →](06-multi-agent.md)

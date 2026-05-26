@@ -41,13 +41,13 @@
 > 完整路线图：[roadmap.md](roadmap.md)
 
 ```
-阶段 1：入门                 阶段 2：日常使用
-  安装 → 首次对话 →             交互模式 → Plan 模式 →
-  创建 CLAUDE.md                Git 工作流 → 上下文管理
+Stage 1: 入门              Stage 2: CLI 精通           Stage 3: API/SDK
+  安装 → 首次对话 →           交互/Plan → CLAUDE.md →     Claude API →
+  /init 创建 CLAUDE.md        Hooks → MCP → 多Agent       Tool Use → Agent SDK
 
-阶段 3：高级用户             阶段 4：专家
-  Hooks → MCP 服务器 →         Claude API → Agent SDK →
-  Prompt 工程                   多 Agent → CI/CD 集成
+Stage 4: 工程进阶           Stage 5: 生产与运维         Stage 6: 团队与企业
+  Prompt 工程 →               端到端项目 → CI/CD →        团队协作 → 安全合规 →
+  高级工作流                   成本控制 → 调试AI代码       大项目管理
 ```
 
 ---

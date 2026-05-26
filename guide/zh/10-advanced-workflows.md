@@ -275,3 +275,7 @@ fi
 <p align="center">
   <strong>回到起点：</strong> <a href="01-getting-started.md">入门指南</a>
 </p>
+
+---
+
+[← 上一章：Prompt 工程](09-prompt-engineering.md) | [目录](../../README_zh.md) | [下一章：端到端实战 →](11-end-to-end-project.md)
