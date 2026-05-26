@@ -430,4 +430,35 @@ We provide ready-to-use templates for common project types:
 
 ---
 
+## Context Window Practical Strategies
+
+Different context window sizes call for different CLAUDE.md approaches.
+
+### 200K Window (Default)
+
+Context is precious — keep CLAUDE.md lean:
+- Target **200-500 lines**
+- Only write what AI can't infer from code (constraints, conventions, commands)
+- Don't write what AI can figure out (tech stack, file structure)
+- Use `/compact` proactively — when Claude's responses start degrading or slowing down
+
+### 1M Window (Bedrock/Vertex)
+
+Context is abundant — CLAUDE.md can be richer:
+- Can expand to **1000-3000 lines**
+- Can include architecture decision rationale ("why X over Y")
+- Can include code examples ("good code looks like this")
+- `/compact` frequency drops significantly
+
+### When to /compact
+
+| Signal | Time to /compact? |
+|--------|--------------------|
+| Claude starts repeating earlier points | Yes |
+| Response quality noticeably drops | Yes |
+| `/cost` shows tokens near limit | Yes |
+| Just finished a feature, starting the next one | Yes (clean context) |
+
+---
+
 [← Previous: Claude Code Mastery](02-claude-code-mastery.md) | [Table of Contents](../../README.md) | [Next: Hooks & Automation →](04-hooks-and-automation.md)

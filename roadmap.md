@@ -170,6 +170,30 @@
 
 ---
 
+## 按主题查找 / Browse by Topic
+
+不按阶段，按"我想解决什么问题"查找：
+
+| 层次 | 主题 | 章节 | 核心问题 |
+|------|------|------|---------|
+| 认知 | Human-AI 协作 | [01](guide/zh/01-getting-started.md) | AI 能帮我做什么？边界在哪？ |
+| 认知 | Context Engineering | [03](guide/zh/03-claude-md-guide.md) | 怎么设计上下文让 AI 表现最好？ |
+| 认知 | AI 代码质量思维 | [14](guide/zh/14-debugging-ai-code.md) | 怎么预防 AI 写出问题代码？ |
+| 工具 | Claude Code CLI | [02](guide/zh/02-claude-code-mastery.md) | 怎么高效使用 CLI？ |
+| 工具 | Hooks & MCP | [04](guide/zh/04-hooks-and-automation.md) · [05](guide/zh/05-mcp-servers.md) | 怎么自动化和扩展？ |
+| 工具 | 多 Agent 编排 | [06](guide/zh/06-multi-agent.md) | 怎么协调多个 Agent？ |
+| 工具 | API / Agent SDK | [07](guide/zh/07-api-and-sdk.md) · [08](guide/zh/08-agent-sdk.md) | 怎么用代码调用和构建 Agent？ |
+| 工程 | Prompt 工程 | [09](guide/zh/09-prompt-engineering.md) | 怎么写出好 Prompt？ |
+| 工程 | 成本控制 | [13](guide/zh/13-cost-and-model-selection.md) | 怎么省钱？选哪个模型？ |
+| 工程 | 安全合规 | [16](guide/zh/16-security-compliance.md) | 怎么保证 AI 代码安全？ |
+| 工程 | 大型代码库 | [17](guide/zh/17-large-codebase.md) | 10 万行代码怎么用 AI？ |
+| 落地 | 端到端项目 | [11](guide/zh/11-end-to-end-project.md) | 从想法到部署的全流程？ |
+| 落地 | CI/CD 集成 | [12](guide/zh/12-cicd-integration.md) | 怎么集成到流水线？ |
+| 落地 | 团队协作 | [15](guide/zh/15-team-workflows.md) | 团队怎么一起用 AI？ |
+| 落地 | 工作流框架 | [框架对比](examples/frameworks/) | 10 个框架该选哪个？ |
+
+---
+
 ## 速查资源 / Resources
 
 | 资源 | 链接 | 说明 |

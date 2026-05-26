@@ -66,6 +66,8 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
 - [mcp-server-brave-search](https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search) — Web search via Brave / 通过 Brave 进行网页搜索
 - [mcp-server-memory](https://github.com/modelcontextprotocol/servers/tree/main/src/memory) — Persistent memory for conversations / 对话持久化记忆
 - [mcp-server-fetch](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) — HTTP request capabilities / HTTP 请求功能
+- [mcp-server-context7](https://github.com/upstash/context7) — Documentation context for any library / 任意库的文档上下文
+- [mcp-server-playwright](https://github.com/anthropics/mcp-server-playwright) — Browser testing and automation / 浏览器测试与自动化
 
 > See [MCP Servers Repository](https://github.com/modelcontextprotocol/servers) for the full official list.
 > 查看 [MCP 服务器仓库](https://github.com/modelcontextprotocol/servers) 获取完整官方列表。
@@ -153,6 +155,11 @@ See our [templates directory](templates/) for ready-to-use CLAUDE.md files:
 ### IDE Extensions / IDE 扩展
 - Claude Code for VS Code
 - Claude Code for JetBrains
+
+### AI Coding Agents / AI 编码 Agent
+- [Aider](https://github.com/paul-gauthier/aider) — Terminal AI coding with multi-model support and git integration / 终端 AI 编码，支持多模型和 git 集成
+- [OpenHands](https://github.com/All-Hands-AI/OpenHands) — Open-source AI software engineering agent (formerly OpenDevin) / 开源 AI 软件工程 Agent（原 OpenDevin）
+- [SWE-agent](https://github.com/princeton-nlp/SWE-agent) — Princeton's autonomous bug-fixing agent for SWE-bench / Princeton 自动修 bug Agent
 
 ---
 

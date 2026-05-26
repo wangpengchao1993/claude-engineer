@@ -284,4 +284,36 @@ Individual agents can fail. Design your system to:
 
 ---
 
+## Agent Orchestration Evolution
+
+AI Agent orchestration has evolved through three levels:
+
+### Level 1: Single Agent (Claude Code Default)
+
+User talks to one agent directly. The agent reads/writes files and runs commands, but all decisions happen within one context.
+
+Best for: daily coding, small features, bug fixes.
+
+### Level 2: Multi-Agent Fan-Out/Fan-In (This Chapter's Focus)
+
+An orchestrator distributes tasks to specialized agents, which work in parallel and merge results.
+
+Best for: multi-file refactoring, multi-perspective review, large-scale test generation.
+
+### Level 3: Self-Orchestrating Agents (Frontier)
+
+The agent itself decides what sub-agents to spawn, how to divide work, and when to consolidate. E.g., the Hermes Agent framework's self-evolving pattern.
+
+Best for: long-term complex projects, continuously evolving codebases.
+
+### How to Choose
+
+| Scenario | Recommended | Why |
+|----------|-------------|-----|
+| Fix one function | Level 1 | Single agent is enough, fast startup |
+| Refactor 10 files | Level 2 | Parallel speedup, each agent focuses on one aspect |
+| Build a system from scratch | Level 2-3 | Needs full planning → design → implement → test pipeline |
+
+---
+
 [← Previous: MCP Servers](05-mcp-servers.md) | [Table of Contents](../../README.md) | [Next: API & SDK →](07-api-and-sdk.md)

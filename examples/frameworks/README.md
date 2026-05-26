@@ -15,6 +15,7 @@ Transform AI coding from "chatting with a bot" into disciplined engineering: req
 - [Demo Config Checklist](#demo-config-checklist--配置清单)
 - [Detailed Feature Matrix](#detailed-feature-matrix--详细功能矩阵)
 - [Framework Profiles](#framework-profiles--框架详情)
+- [Ecosystem & Trends](#ecosystem--trends--生态与趋势)
 - [Learning Path](#learning-path--学习路径)
 - [中文版导航](#中文版导航)
 
@@ -470,6 +471,46 @@ CC Workflows: Analyze → PRD → UI Spec → Design Doc → Work Plan → Imple
 - **Key innovation**: Auto-generates PRD → UI spec → Design doc → Work plan before coding / 编码前自动生成完整文档链
 - **Start command**: `/dev-workflows <your idea>`
 - **[→ Full Guide / 完整指南](claude-code-workflows/)**
+
+---
+
+## Ecosystem & Trends / 生态与趋势
+
+### Vibe Coding vs Structured Coding
+
+2025 年 AI 编程社区最大的分歧：
+
+| 风格 | 做法 | 适合 | 风险 |
+|------|------|------|------|
+| **Vibe Coding** | 随性对话，不写 spec，让 AI 自由发挥 | 原型、探索、个人项目 | 代码质量不可控，难以维护 |
+| **Structured Coding** | 先 spec 后实现，每步验证，框架约束 | 团队协作、生产代码、长期项目 | 前期投入大，小任务过重 |
+
+本 repo 的 10 个框架都属于 Structured Coding 阵营。但两种风格不是非此即彼——**小任务 vibe，大任务 structured** 是多数高效开发者的实际做法。
+
+### Agent Orchestration Evolution / Agent 编排模式演进
+
+```
+Level 1: 单 Agent          Level 2: 多 Agent           Level 3: 自编排 Agent
+(Claude Code 默认)          (扇出/扇入)                (自我进化)
+
+用户 → Agent → 代码        用户 → 编排器 → Agent A     用户 → Meta-Agent
+                                        → Agent B          ├→ 选择策略
+                                        → Agent C          ├→ 分配子Agent
+                                        → 汇总             └→ 自我改进
+
+适合：日常编码              适合：多文件重构            适合：长期复杂项目
+代表：Claude Code 原生      代表：Citadel, ECC          代表：Hermes Agent
+```
+
+### Related Open-Source Projects / 相关开源项目
+
+这些项目不是 Claude Code 框架，但在 AI 编码领域有重要影响：
+
+| 项目 | 说明 | 链接 |
+|------|------|------|
+| **Aider** | 终端 AI 编码工具，支持多模型，强 git 集成 | [github.com/paul-gauthier/aider](https://github.com/paul-gauthier/aider) |
+| **OpenHands** | 开源 AI 软件工程 Agent（原 OpenDevin） | [github.com/All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) |
+| **SWE-agent** | Princeton 的自动修 bug Agent，SWE-bench 基准 | [github.com/princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) |
 
 ---
 
